@@ -16,7 +16,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
-      <Filter>资源文件</Filter>
+      <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="WindowsMessageMap.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="WindowsMessageMap.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
