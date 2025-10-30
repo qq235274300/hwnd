@@ -1,4 +1,5 @@
 #include "Window.h"
+#include "ChiliStringHelper.h"
 
 int CALLBACK WinMain(
 	 HINSTANCE hInstance,
@@ -6,20 +7,36 @@ int CALLBACK WinMain(
 	 LPSTR lpCmdLine,
 	 int nShowCmd)
 {
-	const auto WndName = L"hwdDumb";
-	Window wnd1( 680,480,WndName );
+	try
+	{
+		const auto WndName = L"hwdDumb";
+		Window wnd1(680, 480, WndName);
 
-	MSG msg;
-	BOOL gResult;
-	while ((gResult = GetMessage(&msg, nullptr, 0, 0) )> 0)
-	{
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
+		MSG msg;
+		BOOL gResult;
+		while ((gResult = GetMessage(&msg, nullptr, 0, 0)) > 0)
+		{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+		if (gResult == -1)
+		{
+			return -1;
+		}
+
+		return msg.wParam;
 	}
-	if (gResult == -1)
+	catch (const ChiliException& e)
 	{
-		return -1;
+		MessageBox(nullptr, ChiliStringHelper::ToWide(e.What()).c_str(), ChiliStringHelper::ToWide(e.GetType()).c_str(), MB_OK | MB_ICONEXCLAMATION);
+	}
+	catch (const std::exception& e)
+	{
+		MessageBox(nullptr, ChiliStringHelper::ToWide(e.what()).c_str(), L"Standard Exception", MB_OK | MB_ICONEXCLAMATION);
+	}
+	catch (...)
+	{
+		MessageBox(nullptr, L"No details available", L"Unknown Exception", MB_OK | MB_ICONEXCLAMATION);
 	}
 	
-	return msg.wParam;
 }

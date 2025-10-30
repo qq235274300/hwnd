@@ -42,10 +42,18 @@ Window::Window(int width, int height, const wchar_t* name)
 	RECT rc;
 	rc.left = 100;
 	rc.right = rc.left + width; rc.top = 100; rc.bottom = rc.top + height;
-	AdjustWindowRect(&rc, WS_SYSMENU | WS_CAPTION | WS_MINIMIZEBOX, FALSE);
+	if (FAILED(AdjustWindowRect(&rc, WS_SYSMENU | WS_CAPTION | WS_MINIMIZEBOX, FALSE)))
+	{
+		throw CHWND_LAST_EXCEPT();
+	}
 	
 	hWnd = CreateWindowEx(0, WindowClass::GetWndClassName(), name, WS_SYSMENU |WS_CAPTION | WS_MINIMIZEBOX,
 		CW_USEDEFAULT, CW_USEDEFAULT,width,height,nullptr,nullptr, WindowClass::GetInstance(),this);
+
+	if (hWnd == nullptr)
+	{
+		throw CHWND_LAST_EXCEPT();
+	}
 
 	ShowWindow(hWnd, SW_SHOWDEFAULT);
 }
@@ -90,4 +98,53 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 
 	return DefWindowProc(hWnd, msg, wParam, lParam);
+}
+
+Window::Exception::Exception(int line, const std::string file, HRESULT hr)
+	:ChiliException(line,file),hr(hr)
+{
+}
+
+const char* Window::Exception::What() const noexcept
+{
+	std::ostringstream oss;
+	oss << GetType() << std::endl
+		<< "[Error Code] " << GetErrorCode() << std::endl
+		<< "[Description] " << GetErrorString() << std::endl
+		<< GetOriginString();
+	WhatBuffer = oss.str();
+	return WhatBuffer.c_str();
+}
+
+const char* Window::Exception::GetType() const noexcept
+{
+	return "Chili Window Exception";
+}
+
+std::string Window::Exception::TranslateErrorCode(HRESULT hr) noexcept
+{
+	LPSTR pMsgBuf = nullptr;
+	DWORD nMsgLen = FormatMessageA(
+		FORMAT_MESSAGE_ALLOCATE_BUFFER |
+		FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+		nullptr, hr, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+		reinterpret_cast<LPSTR>(&pMsgBuf), 0, nullptr
+	);
+	if (nMsgLen == 0)
+	{
+		return "Unidentified error code";
+	}
+	std::string errorString = pMsgBuf;
+	LocalFree(pMsgBuf);
+	return errorString;
+}
+
+HRESULT Window::Exception::GetErrorCode() const noexcept
+{
+	return hr;
+}
+
+std::string Window::Exception::GetErrorString() const noexcept
+{
+	return TranslateErrorCode(hr);
 }

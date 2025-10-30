@@ -1,7 +1,26 @@
 #pragma once
 #include "ChiliWin.h"
+#include "ChiliException.h"
+
+
 class Window
 {
+public:
+	class Exception : public ChiliException
+	{
+	public:
+		Exception(int line, const std::string file, HRESULT hr);
+		virtual const char* What()const noexcept override;
+		virtual const char* GetType()const noexcept override;
+
+		static std::string TranslateErrorCode(HRESULT hr) noexcept;
+		HRESULT GetErrorCode() const noexcept;
+		std::string GetErrorString() const noexcept;
+
+	private:
+		HRESULT hr;
+	};
+
 private:
 	class WindowClass
 	{
@@ -33,3 +52,5 @@ private:
 	HWND hWnd;
 };
 
+#define CHWND_EXCEPT(hr) Window::Exception(__LINE__,__FILE__,hr)
+#define CHWND_LAST_EXCEPT() Window::Exception(__LINE__,__FILE__,GetLastError())
