@@ -46,8 +46,8 @@ Window::Window(int width, int height, const wchar_t* name)
 	{
 		throw CHWND_LAST_EXCEPT();
 	}
-	
-	hWnd = CreateWindowEx(0, WindowClass::GetWndClassName(), name, WS_SYSMENU |WS_CAPTION | WS_MINIMIZEBOX,
+	//WindowClass::GetWndClassName()
+	hWnd = CreateWindowEx(0,L"111", name, WS_SYSMENU | WS_CAPTION | WS_MINIMIZEBOX,
 		CW_USEDEFAULT, CW_USEDEFAULT,width,height,nullptr,nullptr, WindowClass::GetInstance(),this);
 
 	if (hWnd == nullptr)
@@ -123,20 +123,40 @@ const char* Window::Exception::GetType() const noexcept
 
 std::string Window::Exception::TranslateErrorCode(HRESULT hr) noexcept
 {
-	LPSTR pMsgBuf = nullptr;
-	DWORD nMsgLen = FormatMessageA(
+	LPWSTR pMsgBuf = nullptr;
+	DWORD nMsgLen = ::FormatMessageW(
 		FORMAT_MESSAGE_ALLOCATE_BUFFER |
-		FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-		nullptr, hr, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-		reinterpret_cast<LPSTR>(&pMsgBuf), 0, nullptr
-	);
-	if (nMsgLen == 0)
-	{
+		FORMAT_MESSAGE_FROM_SYSTEM |
+		FORMAT_MESSAGE_IGNORE_INSERTS,
+		nullptr,
+		hr,
+		0,                           // 让系统自己挑语言
+		(LPWSTR)&pMsgBuf,            // 注意：ALLOCATE_BUFFER 时是指针的地址
+		0,
+		nullptr);
+
+	if (nMsgLen == 0 || !pMsgBuf) {
 		return "Unidentified error code";
 	}
-	std::string errorString = pMsgBuf;
-	LocalFree(pMsgBuf);
-	return errorString;
+
+	// 把系统返回的宽字符串拷贝出来，并去掉尾部的 \r\n
+	std::wstring wmsg(pMsgBuf, nMsgLen);
+	::LocalFree(pMsgBuf);
+	while (!wmsg.empty() && (wmsg.back() == L'\r' || wmsg.back() == L'\n')) {
+		wmsg.pop_back();
+	}
+
+	// 宽 -> UTF-8
+	int bytes = ::WideCharToMultiByte(CP_UTF8, 0,
+		wmsg.c_str(), (int)wmsg.size(),
+		nullptr, 0, nullptr, nullptr);
+	if (bytes <= 0) return "Unidentified error code";
+
+	std::string utf8(bytes, '\0');
+	::WideCharToMultiByte(CP_UTF8, 0,
+		wmsg.c_str(), (int)wmsg.size(),
+		utf8.data(), bytes, nullptr, nullptr);
+	return utf8;
 }
 
 HRESULT Window::Exception::GetErrorCode() const noexcept
