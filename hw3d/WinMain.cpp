@@ -26,16 +26,41 @@ int CALLBACK WinMain(
 				MessageBox(nullptr, L"Something Happon!", L"ALT Key Was Pressed", MB_OK | MB_ICONEXCLAMATION);
 			}*/
 
+			//while (!wnd.mouse.IsEmpty())
+			//{
+			//	const auto e = wnd.mouse.Read();
+			//	if (e.GetType() == Mouse::Event::Type::Move)
+			//	{
+			//		std::ostringstream oss;
+			//		oss << "Mouse Position: (" << e.GetPosX() << "," << e.GetPosY() << ")";
+			//		
+			//		//OutputDebugStringA(oss.str().c_str());
+			//		wnd.SetTitle(ChiliStringHelper::ToWide(oss.str()));
+			//	}
+			//}
+
+			static int i = 0;
 			while (!wnd.mouse.IsEmpty())
 			{
 				const auto e = wnd.mouse.Read();
-				if (e.GetType() == Mouse::Event::Type::Move)
+				switch (e.GetType())
 				{
-					std::ostringstream oss;
-					oss << "Mouse Position: (" << e.GetPosX() << "," << e.GetPosY() << ")";
-					
-					//OutputDebugStringA(oss.str().c_str());
-					wnd.SetTitle(ChiliStringHelper::ToWide(oss.str()));
+				case Mouse::Event::Type::WheelUp:
+					i++;
+					{
+						std::ostringstream oss;
+						oss << "Up: " << i;
+						wnd.SetTitle(ChiliStringHelper::ToWide(oss.str()));
+					}
+					break;
+				case Mouse::Event::Type::WheelDown:
+					i--;
+					{
+						std::ostringstream oss;
+						oss << "Down: " << i;
+						wnd.SetTitle(ChiliStringHelper::ToWide(oss.str()));
+					}
+					break;
 				}
 			}
 
