@@ -1,5 +1,8 @@
 #include "Window.h"
 #include "ChiliStringHelper.h"
+#include <sstream>
+#include "ChiliStringHelper.h"
+#include <iostream>
 
 int CALLBACK WinMain(
 	 HINSTANCE hInstance,
@@ -10,7 +13,7 @@ int CALLBACK WinMain(
 	try
 	{
 		const auto WndName = L"hwdDumb";
-		Window wnd1(680, 480, WndName);
+		Window wnd(680, 480, WndName);
 
 		MSG msg;
 		BOOL gResult;
@@ -22,6 +25,20 @@ int CALLBACK WinMain(
 			{
 				MessageBox(nullptr, L"Something Happon!", L"ALT Key Was Pressed", MB_OK | MB_ICONEXCLAMATION);
 			}*/
+
+			while (!wnd.mouse.IsEmpty())
+			{
+				const auto e = wnd.mouse.Read();
+				if (e.GetType() == Mouse::Event::Type::Move)
+				{
+					std::ostringstream oss;
+					oss << "Mouse Position: (" << e.GetPosX() << "," << e.GetPosY() << ")";
+					
+					//OutputDebugStringA(oss.str().c_str());
+					wnd.SetTitle(ChiliStringHelper::ToWide(oss.str()));
+				}
+			}
+
 		}
 		if (gResult == -1)
 		{
