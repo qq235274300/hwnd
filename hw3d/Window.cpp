@@ -47,7 +47,7 @@ Window::Window(int width, int height, const wchar_t* name)
 		throw CHWND_LAST_EXCEPT();
 	}
 	//WindowClass::GetWndClassName()
-	hWnd = CreateWindowEx(0,L"111", name, WS_SYSMENU | WS_CAPTION | WS_MINIMIZEBOX,
+	hWnd = CreateWindowEx(0, WindowClass::GetWndClassName(), name, WS_SYSMENU | WS_CAPTION | WS_MINIMIZEBOX,
 		CW_USEDEFAULT, CW_USEDEFAULT,width,height,nullptr,nullptr, WindowClass::GetInstance(),this);
 
 	if (hWnd == nullptr)
@@ -88,10 +88,28 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static WindowsMessageMap mm;
 	std::string wndMessage = mm(msg, lParam, wParam).c_str();
-	OutputDebugStringA(wndMessage.c_str());
+	//OutputDebugStringA(wndMessage.c_str());
 
 	switch (msg)
 	{
+	//keyboard messages
+	case WM_KILLFOCUS:
+		kbd.ClearState();
+		break;
+	case WM_KEYDOWN:
+	case WM_SYSKEYDOWN:
+		if (!(lParam & 0x40000000) || kbd.AutoRepeatIsEnable())
+		{
+			kbd.OnKeyPressed(static_cast<unsigned char>(wParam));
+		}	
+		break;
+	case WM_KEYUP:
+	case WM_SYSKEYUP:
+		kbd.OnKeyReleased(static_cast<unsigned char>(wParam));
+		break;
+	case WM_CHAR:
+		kbd.OnChar(static_cast<unsigned char>(wParam));
+		break;
 	case WM_CLOSE:
 		PostQuitMessage(0);
 		return 0;
