@@ -1,76 +1,16 @@
 #include "Window.h"
+#include "App.h"
 #include "ChiliStringHelper.h"
 #include <sstream>
-#include "ChiliStringHelper.h"
-#include <iostream>
-
 int CALLBACK WinMain(
-	 HINSTANCE hInstance,
-	 HINSTANCE hPrevInstance,
-	 LPSTR lpCmdLine,
-	 int nShowCmd)
+	HINSTANCE hInstance,
+	HINSTANCE hPrevInstance,
+	LPSTR lpCmdLine,
+	int nShowCmd)
 {
 	try
 	{
-		const auto WndName = L"hwdDumb";
-		Window wnd(680, 480, WndName);
-
-		MSG msg;
-		BOOL gResult;
-		while ((gResult = GetMessage(&msg, nullptr, 0, 0)) > 0)
-		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-			/*if (wnd1.kbd.KeyIsPressed(VK_MENU))
-			{
-				MessageBox(nullptr, L"Something Happon!", L"ALT Key Was Pressed", MB_OK | MB_ICONEXCLAMATION);
-			}*/
-
-			//while (!wnd.mouse.IsEmpty())
-			//{
-			//	const auto e = wnd.mouse.Read();
-			//	if (e.GetType() == Mouse::Event::Type::Move)
-			//	{
-			//		std::ostringstream oss;
-			//		oss << "Mouse Position: (" << e.GetPosX() << "," << e.GetPosY() << ")";
-			//		
-			//		//OutputDebugStringA(oss.str().c_str());
-			//		wnd.SetTitle(ChiliStringHelper::ToWide(oss.str()));
-			//	}
-			//}
-
-			static int i = 0;
-			while (!wnd.mouse.IsEmpty())
-			{
-				const auto e = wnd.mouse.Read();
-				switch (e.GetType())
-				{
-				case Mouse::Event::Type::WheelUp:
-					i++;
-					{
-						std::ostringstream oss;
-						oss << "Up: " << i;
-						wnd.SetTitle(ChiliStringHelper::ToWide(oss.str()));
-					}
-					break;
-				case Mouse::Event::Type::WheelDown:
-					i--;
-					{
-						std::ostringstream oss;
-						oss << "Down: " << i;
-						wnd.SetTitle(ChiliStringHelper::ToWide(oss.str()));
-					}
-					break;
-				}
-			}
-
-		}
-		if (gResult == -1)
-		{
-			return -1;
-		}
-
-		return msg.wParam;
+		return App{}.Go();
 	}
 	catch (const ChiliException& e)
 	{
@@ -84,5 +24,4 @@ int CALLBACK WinMain(
 	{
 		MessageBox(nullptr, L"No details available", L"Unknown Exception", MB_OK | MB_ICONEXCLAMATION);
 	}
-	
 }
