@@ -42,6 +42,9 @@
     <ClCompile Include="Graphics.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="dxerr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -74,5 +77,19 @@
     <ClInclude Include="Graphics.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="dxerr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DXGetErrorDescription.inl">
+      <Filter>头文件</Filter>
+    </None>
+    <None Include="DXGetErrorString.inl">
+      <Filter>头文件</Filter>
+    </None>
+    <None Include="DXTrace.inl">
+      <Filter>头文件</Filter>
+    </None>
   </ItemGroup>
 </Project>
