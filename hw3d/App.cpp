@@ -13,7 +13,7 @@ int App::Go()
 		if (const auto ecode = wnd.ProcessMessages()) {
 			return *ecode;
 		}
-		DoFrame();
+		DoFrame();	
 	}	
 }
 
@@ -23,4 +23,7 @@ void App::DoFrame()
 	std::ostringstream oss;
 	oss << "Time elapsed: " << std::setprecision(1) << std::fixed << t << "s";
 	wnd.SetTitle(ChiliStringHelper::ToWide(oss.str()));
+
+
+	wnd.Gfx().EndFrame();
 }
