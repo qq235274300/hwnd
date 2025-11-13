@@ -2,7 +2,7 @@
 #include "ChiliStringHelper.h"
 #include <sstream>
 
-App::App(): wnd(680, 480, wndName)
+App::App(): wnd(800, 600, wndName)
 {
 }
 
