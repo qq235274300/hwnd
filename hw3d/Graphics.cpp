@@ -105,12 +105,18 @@ void Graphics::DrawTestTriangle()
 
 	struct Vertex
 	{
-		float x;
-		float y;
-		unsigned char r;
-		unsigned char g;
-		unsigned char b;
-		unsigned char a;
+		struct
+		{
+			float x;
+			float y;
+		}pos;
+		struct
+		{
+			unsigned char r;
+			unsigned char g;
+			unsigned char b;
+			unsigned char a;
+		}color;
 	};
 
 	const Vertex vertices[] =
@@ -118,8 +124,20 @@ void Graphics::DrawTestTriangle()
 		{ 0.0f,0.5f,255,0,0,255 },
 		{ 0.5f,-0.5f,0,255,0,255 },
 		{ -0.5f,-0.5f,0,0,255,255},
+		{ -0.3f,0.3f,0,255,0,255},
+		{ 0.3f,0.3f,0,0,255,255},
+		{ 0.0f,-0.8f,255,0,0,255},
 	};
 
+	const unsigned short indices[]
+	{
+		0,1,2,
+		0,2,3,
+		0,4,1,
+		2,1,5
+	};
+
+	//vertex Buffer
 	wrl::ComPtr<ID3D11Buffer> pVertextBuffer;
 	D3D11_BUFFER_DESC bd = {};
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
@@ -136,6 +154,22 @@ void Graphics::DrawTestTriangle()
 	const UINT stride = sizeof(Vertex);
 	const UINT offset = 0u;
 	pContext->IASetVertexBuffers(0u, 1u, pVertextBuffer.GetAddressOf(), &stride, &offset); //告知开始slot 几个buffer 从pVertextBuffer中读
+	
+	//Indices
+	wrl::ComPtr<ID3D11Buffer> pIndexBuffer;
+	D3D11_BUFFER_DESC ibd = {};
+	ibd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	ibd.Usage = D3D11_USAGE_DEFAULT; //默认用法：GPU 读写、CPU 不直接访问
+	ibd.CPUAccessFlags = 0u;// 创建后不需要CPU访问
+	ibd.MiscFlags = 0u;
+	ibd.ByteWidth = sizeof(indices);//缓冲区总大小（字节数）。整个顶点数组的大小
+	ibd.StructureByteStride = sizeof(unsigned short);//每个元素的字节大小（结构体大小)
+
+	D3D11_SUBRESOURCE_DATA isd = {};
+	isd.pSysMem = indices;//实际的顶点数据 存储
+	GFX_THROW_INFO(pDevice->CreateBuffer(&ibd, &isd, &pIndexBuffer));
+
+	pContext->IASetIndexBuffer(pIndexBuffer.Get(), DXGI_FORMAT::DXGI_FORMAT_R16_UINT, 0u);
 
 	wrl::ComPtr<ID3DBlob> pBlob;
 	wrl::ComPtr<ID3D11PixelShader> pPixelShader;
@@ -174,7 +208,7 @@ void Graphics::DrawTestTriangle()
 	pContext->RSSetViewports(1u, &vp);
 
 	//pContext不返回 HRESULT 需要单独的Exception; 且pContext只有在Draw的时候才会产生消息
-	GFX_THROW_INFO_ONLY(pContext->Draw((UINT)std::size(vertices), 0u));
+	GFX_THROW_INFO_ONLY(pContext->DrawIndexed((UINT)std::size(indices),0u, 0u));
 }
 
 Graphics::HrException::HrException(int line, const char* file, HRESULT hr, std::vector<std::string> infoMsgs) noexcept
