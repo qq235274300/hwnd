@@ -13,10 +13,12 @@ namespace wrl = Microsoft::WRL;
 #define GFX_EXCEPT(hr) Graphics::HrException( __LINE__,__FILE__,(hr),infoManager.GetMessages() )
 #define GFX_THROW_INFO(hrcall) infoManager.Set(); if( FAILED( hr = (hrcall) ) ) throw GFX_EXCEPT(hr)
 #define GFX_DEVICE_REMOVED_EXCEPT(hr) Graphics::DeviceRemovedException( __LINE__,__FILE__,(hr),infoManager.GetMessages() )
+#define GFX_THROW_INFO_ONLY(call) infoManager.Set(); (call); {auto v = infoManager.GetMessages(); if(!v.empty()) {throw Graphics::InfoException( __LINE__,__FILE__,v);}}
 #else
 #define GFX_EXCEPT(hr) Graphics::HrException( __LINE__,__FILE__,(hr) )
 #define GFX_THROW_INFO(hrcall) GFX_THROW_NOINFO(hrcall)
 #define GFX_DEVICE_REMOVED_EXCEPT(hr) Graphics::DeviceRemovedException( __LINE__,__FILE__,(hr) )
+#define GFX_THROW_INFO_ONLY(call) (call)
 #endif
 
 Graphics::Graphics(HWND hWnd)
@@ -94,6 +96,45 @@ void Graphics::ClearBuffer(float red, float green, float blue) noexcept
 
 
 
+void Graphics::DrawTestTriangle()
+{
+	namespace wrl = Microsoft::WRL;
+	HRESULT hr;
+
+	struct Vertex
+	{
+		float x;
+		float y;
+	};
+
+	const Vertex vertices[] =
+	{
+		{0.0f,0.5f},
+		{0.5f,-0.5f},
+		{-0.5f,-0.5f},
+	};
+
+	wrl::ComPtr<ID3D11Buffer> pVertextBuffer;
+	D3D11_BUFFER_DESC bd = {};
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	bd.Usage = D3D11_USAGE_DEFAULT; //默认用法：GPU 读写、CPU 不直接访问
+	bd.CPUAccessFlags = 0u;// 创建后不需要CPU访问
+	bd.MiscFlags = 0u;
+	bd.ByteWidth = sizeof(vertices);//缓冲区总大小（字节数）。整个顶点数组的大小
+	bd.StructureByteStride = sizeof(Vertex);//每个元素的字节大小（结构体大小)
+
+	D3D11_SUBRESOURCE_DATA sd = {};
+	sd.pSysMem = vertices;//实际的顶点数据 存储
+
+	GFX_THROW_INFO(pDevice->CreateBuffer(&bd, &sd, &pVertextBuffer)); //创建GPU内存 pVertextBuffer指向它
+	const UINT stride = sizeof(Vertex);
+	const UINT offset = 0u;
+	pContext->IASetVertexBuffers(0u, 1u, &pVertextBuffer, &stride, &offset); //告知开始slot 几个buffer 从pVertextBuffer中读
+
+	//pContext不返回 HRESULT 需要单独的Exception; 且pContext只有在Draw的时候才会产生消息
+	GFX_THROW_INFO_ONLY(pContext->Draw(3u, 0u));
+}
+
 Graphics::HrException::HrException(int line, const char* file, HRESULT hr, std::vector<std::string> infoMsgs) noexcept
 	:
 	Exception(line, file),
@@ -159,4 +200,40 @@ std::string Graphics::HrException::GetErrorInfo() const noexcept
 const char* Graphics::DeviceRemovedException::GetType() const noexcept
 {
 	return "Chili Graphics Exception [Device Removed] (DXGI_ERROR_DEVICE_REMOVED)";
+}
+
+Graphics::InfoException::InfoException(int line, const char* file, std::vector<std::string> infoMsgs) noexcept
+	:
+	Exception(line, file) 
+{
+	for (const auto& m : infoMsgs)
+	{
+		info += m;
+		info.push_back('\n');
+	}
+	// remove final newline if exists
+	if (!info.empty())
+	{
+		info.pop_back();
+	}
+}
+
+const char* Graphics::InfoException::What() const noexcept
+{
+	std::ostringstream oss;
+	oss << GetType() << std::endl
+		<< "\n[Error Info]\n" << GetErrorInfo() << std::endl << std::endl;
+	oss << GetOriginString();
+	WhatBuffer = oss.str();
+	return WhatBuffer.c_str();
+}
+
+const char* Graphics::InfoException::GetType() const noexcept
+{
+	return "Chili Graphics Info Exception";
+}
+
+std::string Graphics::InfoException::GetErrorInfo() const noexcept
+{
+	return info;
 }
