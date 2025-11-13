@@ -107,13 +107,16 @@ void Graphics::DrawTestTriangle()
 	{
 		float x;
 		float y;
+		float r;
+		float g;
+		float b;
 	};
 
 	const Vertex vertices[] =
 	{
-		{0.0f,0.5f},
-		{0.5f,-0.5f},
-		{-0.5f,-0.5f},
+		{0.0f,0.5f,1.0f,0.0f,0.0f},
+		{0.5f,-0.5f,0.0f,1.0f,0.0f},
+		{-0.5f,-0.5f,0.0f,0.0f,1.0f},
 	};
 
 	wrl::ComPtr<ID3D11Buffer> pVertextBuffer;
@@ -150,6 +153,7 @@ void Graphics::DrawTestTriangle()
 	{
 		//match VertexShader
 		{"Position",0,DXGI_FORMAT_R32G32_FLOAT,0,0,D3D11_INPUT_PER_VERTEX_DATA,0},
+		{"Color",0,DXGI_FORMAT_R32G32B32_FLOAT,D3D11_APPEND_ALIGNED_ELEMENT,0,D3D11_INPUT_PER_VERTEX_DATA,0},
 	};
 	GFX_THROW_INFO(pDevice->CreateInputLayout(ied, (UINT)std::size(ied), pBlob->GetBufferPointer(), pBlob->GetBufferSize(), &pInputLayout));
 
@@ -257,6 +261,33 @@ Graphics::InfoException::InfoException(int line, const char* file, std::vector<s
 
 const char* Graphics::InfoException::What() const noexcept
 {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	std::ostringstream oss;
 	oss << GetType() << std::endl
 		<< "\n[Error Info]\n" << GetErrorInfo() << std::endl << std::endl;
