@@ -98,7 +98,7 @@ void Graphics::ClearBuffer(float red, float green, float blue) noexcept
 
 
 
-void Graphics::DrawTestTriangle()
+void Graphics::DrawTestTriangle(float angle)
 {
 	namespace wrl = Microsoft::WRL;
 	HRESULT hr;
@@ -126,7 +126,7 @@ void Graphics::DrawTestTriangle()
 		{ -0.5f,-0.5f,0,0,255,255},
 		{ -0.3f,0.3f,0,255,0,255},
 		{ 0.3f,0.3f,0,0,255,255},
-		{ 0.0f,-0.8f,255,0,0,255},
+		{ 0.0f,-1.0f,255,0,0,255},
 	};
 
 	const unsigned short indices[]
@@ -171,6 +171,40 @@ void Graphics::DrawTestTriangle()
 
 	pContext->IASetIndexBuffer(pIndexBuffer.Get(), DXGI_FORMAT::DXGI_FORMAT_R16_UINT, 0u);
 
+	//CB
+	struct ConstantBuffer
+	{
+		struct 
+		{
+			float element[4][4];
+		}transform;
+	};
+	//旋转矩阵
+	const ConstantBuffer cb =
+	{
+		{
+			(3.0f / 4.0f)* std::cos(angle),	std::sin(angle),	0.0f,	0.0f,
+			(3.0f / 4.0f) * -std::sin(angle),	std::cos(angle),	0.0f,	0.0f,
+			0.0f,								0.0f,				1.0f,	0.0f,
+			0.0f,								0.0f,				0.0f,	1.0f,
+		}
+	};
+	wrl::ComPtr<ID3D11Buffer> pConstantBuffer;
+	D3D11_BUFFER_DESC cbd = {};
+	cbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	cbd.Usage = D3D11_USAGE_DYNAMIC; 
+	cbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;// 创建后不需要CPU访问
+	cbd.MiscFlags = 0u;
+	cbd.ByteWidth = sizeof(cb);//缓冲区总大小（字节数）。整个顶点数组的大小
+	cbd.StructureByteStride = 0u;//不像VB PB需要填每个元素的大小
+
+	D3D11_SUBRESOURCE_DATA csd = {};
+	csd.pSysMem = &cb;//实际的顶点数据 存储
+	GFX_THROW_INFO(pDevice->CreateBuffer(&cbd,&csd, &pConstantBuffer));
+
+	pContext->VSSetConstantBuffers(0u, 1u, pConstantBuffer.GetAddressOf());
+
+	//读取Shader
 	wrl::ComPtr<ID3DBlob> pBlob;
 	wrl::ComPtr<ID3D11PixelShader> pPixelShader;
 	D3DReadFileToBlob(L"PixelShader.cso", &pBlob);
