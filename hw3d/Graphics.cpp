@@ -102,7 +102,7 @@ void Graphics::ClearBuffer(float red, float green, float blue) noexcept
 
 
 
-void Graphics::DrawTestTriangle(float angle)
+void Graphics::DrawTestTriangle(float angle, float x, float y)
 {
 	namespace wrl = Microsoft::WRL;
 	HRESULT hr;
@@ -183,7 +183,11 @@ void Graphics::DrawTestTriangle(float angle)
 	//Ðý×ª¾ØÕó
 	const ConstantBuffer cb =
 	{
-		dx::XMMatrixTranspose(dx::XMMatrixRotationZ(angle) * dx::XMMatrixScaling(angle,1.0f,1.0f)) 
+		dx::XMMatrixTranspose(
+				dx::XMMatrixRotationZ(angle)*
+				dx::XMMatrixScaling(3.0f / 4.0f,1.0f,1.0f)*
+				dx::XMMatrixTranslation(x,y,0.0f)
+			)
 	};
 	
 	wrl::ComPtr<ID3D11Buffer> pConstantBuffer;
@@ -327,33 +331,6 @@ Graphics::InfoException::InfoException(int line, const char* file, std::vector<s
 
 const char* Graphics::InfoException::What() const noexcept
 {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	std::ostringstream oss;
 	oss << GetType() << std::endl
 		<< "\n[Error Info]\n" << GetErrorInfo() << std::endl << std::endl;
