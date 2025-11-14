@@ -3,10 +3,14 @@
 #include <sstream>
 #include "ChiliStringHelper.h"
 #include <d3dcompiler.h>
+#include <DirectXMath.h>
+
 #pragma comment(lib,"d3d11.lib")
 #pragma comment(lib,"D3DCompiler.lib")
 
 namespace wrl = Microsoft::WRL;
+namespace dx = DirectX;
+
 // graphics exception checking/throwing macros (some with dxgi infos)
 #define GFX_EXCEPT_NOINFO(hr) Graphics::HrException( __LINE__,__FILE__,(hr) )
 #define GFX_THROW_NOINFO(hrcall) if( FAILED( hr = (hrcall) ) ) throw Graphics::HrException( __LINE__,__FILE__,hr )
@@ -174,21 +178,14 @@ void Graphics::DrawTestTriangle(float angle)
 	//CB
 	struct ConstantBuffer
 	{
-		struct 
-		{
-			float element[4][4];
-		}transform;
+		dx::XMMATRIX transform;
 	};
 	//Ðý×ª¾ØÕó
 	const ConstantBuffer cb =
 	{
-		{
-			(3.0f / 4.0f)* std::cos(angle),	std::sin(angle),	0.0f,	0.0f,
-			(3.0f / 4.0f) * -std::sin(angle),	std::cos(angle),	0.0f,	0.0f,
-			0.0f,								0.0f,				1.0f,	0.0f,
-			0.0f,								0.0f,				0.0f,	1.0f,
-		}
+		dx::XMMatrixTranspose(dx::XMMatrixRotationZ(angle) * dx::XMMatrixScaling(angle,1.0f,1.0f)) 
 	};
+	
 	wrl::ComPtr<ID3D11Buffer> pConstantBuffer;
 	D3D11_BUFFER_DESC cbd = {};
 	cbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
