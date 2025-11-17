@@ -89,6 +89,12 @@
     <ClInclude Include="DxgiInfoManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="WindowsThrowMacros.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsThrowMacros.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXGetErrorDescription.inl">
