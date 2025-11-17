@@ -16,6 +16,9 @@
     <Filter Include="Shader">
       <UniqueIdentifier>{d4269b39-2cdb-41d5-b13c-feffcd53a31a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\Bindable">
+      <UniqueIdentifier>{1d86c3ff-c8ea-4b99-964b-28ba9f8c34a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -50,6 +53,27 @@
     </ClCompile>
     <ClCompile Include="DxgiInfoManager.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Bindable.cpp">
+      <Filter>源文件\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexBuffer.cpp">
+      <Filter>源文件\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="IndexBuffer.cpp">
+      <Filter>源文件\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelShader.cpp">
+      <Filter>源文件\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexShader.cpp">
+      <Filter>源文件\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="Topology.cpp">
+      <Filter>源文件\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="InputLayout.cpp">
+      <Filter>源文件\Bindable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -94,6 +118,30 @@
     </ClInclude>
     <ClInclude Include="GraphicsThrowMacros.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Bindable.h">
+      <Filter>源文件\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexBuffer.h">
+      <Filter>源文件\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexBuffer.h">
+      <Filter>源文件\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstantBuffer.h">
+      <Filter>源文件\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelShader.h">
+      <Filter>源文件\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexShader.h">
+      <Filter>源文件\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="Topology.h">
+      <Filter>源文件\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="InputLayout.h">
+      <Filter>源文件\Bindable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

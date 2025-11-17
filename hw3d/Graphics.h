@@ -5,8 +5,14 @@
 #include <vector>
 #include <wrl.h>
 #include "DxgiInfoManager.h"
+#include <d3dcompiler.h>
+#include <DirectXMath.h>
+#include <memory>
+#include <random>
+
 class Graphics
 {
+	friend class Bindable;
 public:
 	class Exception : public ChiliException
 	{
