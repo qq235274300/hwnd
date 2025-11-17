@@ -60,7 +60,9 @@ public:
 	void EndFrame();
 	void ClearBuffer(float red, float green, float blue) noexcept;
 	void DrawTestTriangle(float angle, float x, float z);
-
+	void DrawIndexed(UINT count) noexcept(!IS_DEBUG);
+	void SetProjection(DirectX::FXMMATRIX proj) noexcept;
+	DirectX::XMMATRIX GetProjection() const noexcept;
 private:
 #ifndef NDEBUG
 	DxgiInfoManager infoManager;
@@ -70,5 +72,8 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext> pContext;
 	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> pTarget;
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> pDSV;
+
+private:
+	DirectX::XMMATRIX projection;
 };
 

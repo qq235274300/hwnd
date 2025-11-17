@@ -70,11 +70,16 @@ Graphics::Graphics(HWND hWnd)
 	// bind depth state
 	pContext->OMSetDepthStencilState(pDSState.Get(), 1u);
 
+	DXGI_SWAP_CHAIN_DESC scDesc = {};
+	pSwap->GetDesc(&scDesc);
+	UINT scale_width = scDesc.BufferDesc.Width;
+	UINT scale_height = scDesc.BufferDesc.Height;
+
 	// create depth stensil texture
 	wrl::ComPtr<ID3D11Texture2D> pDepthStencil;
 	D3D11_TEXTURE2D_DESC descDepth = {};
-	descDepth.Width = 800u;
-	descDepth.Height = 600u;
+	descDepth.Width = scale_width;
+	descDepth.Height = scale_height;
 	descDepth.MipLevels = 1u;
 	descDepth.ArraySize = 1u;
 	descDepth.Format = DXGI_FORMAT_D32_FLOAT;
@@ -93,6 +98,17 @@ Graphics::Graphics(HWND hWnd)
 		pDepthStencil.Get(), &descDSV, &pDSV
 	));
 
+	D3D11_VIEWPORT vp;
+	vp.Width = (float)scale_width;
+	vp.Height = (float)scale_height;
+	vp.MinDepth = 0;
+	vp.MaxDepth = 1;
+	vp.TopLeftX = 0;
+	vp.TopLeftY = 0;
+	pContext->RSSetViewports(1u, &vp);
+
+	// bind depth stensil view to OM
+	pContext->OMSetRenderTargets(1u, pTarget.GetAddressOf(), pDSV.Get());
 }
 
 void Graphics::EndFrame()
@@ -121,6 +137,8 @@ void Graphics::ClearBuffer(float red, float green, float blue) noexcept
 	const float color[] = { red,green,blue,1.0f };
 	pContext->ClearRenderTargetView(pTarget.Get(), color);
 	pContext->ClearDepthStencilView(pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
+
+	pContext->OMSetRenderTargets(1u, pTarget.GetAddressOf(), pDSV.Get());
 }
 
 
@@ -290,20 +308,23 @@ void Graphics::DrawTestTriangle(float angle, float x, float z)
 	pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	pContext->IASetInputLayout(pInputLayout.Get());
 	//bind to viewport
-	D3D11_VIEWPORT vp;
-	vp.Width = 800;
-	vp.Height = 600;
-	vp.MinDepth = 0;
-	vp.MaxDepth = 1;
-	vp.TopLeftX = 0;
-	vp.TopLeftY = 0;
-	pContext->RSSetViewports(1u, &vp);
-
-	// bind depth stensil view to OM
-	pContext->OMSetRenderTargets(1u, pTarget.GetAddressOf(), pDSV.Get());
-
 	//pContext不返回 HRESULT 需要单独的Exception; 且pContext只有在Draw的时候才会产生消息
-	GFX_THROW_INFO_ONLY(pContext->DrawIndexed((UINT)std::size(indices),0u, 0u));
+	GFX_THROW_INFO_ONLY(pContext->DrawIndexed((UINT)std::size(indices), 0u, 0u));
+}
+
+void Graphics::DrawIndexed(UINT count) noexcept(!IS_DEBUG)
+{
+	GFX_THROW_INFO_ONLY(pContext->DrawIndexed(count, 0u, 0u));
+}
+
+void Graphics::SetProjection(DirectX::FXMMATRIX proj) noexcept
+{
+	projection = proj;
+}
+
+DirectX::XMMATRIX Graphics::GetProjection() const noexcept
+{
+	return projection;
 }
 
 Graphics::HrException::HrException(int line, const char* file, HRESULT hr, std::vector<std::string> infoMsgs) noexcept
