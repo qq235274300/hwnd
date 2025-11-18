@@ -22,6 +22,9 @@
     <Filter Include="源文件\Drawable">
       <UniqueIdentifier>{c7329063-0db9-41e8-9ac1-082d02febe10}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\Primitive">
+      <UniqueIdentifier>{df1c85b4-291c-4f17-8589-0084ef066474}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -84,8 +87,14 @@
     <ClCompile Include="TransformCbuf.cpp">
       <Filter>源文件\Bindable</Filter>
     </ClCompile>
+    <ClCompile Include="Melon.cpp">
+      <Filter>源文件\Primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="Pyramid.cpp">
+      <Filter>源文件\Primitive</Filter>
+    </ClCompile>
     <ClCompile Include="Box.cpp">
-      <Filter>源文件\Drawable</Filter>
+      <Filter>源文件\Primitive</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -161,14 +170,41 @@
     <ClInclude Include="TransformCbuf.h">
       <Filter>源文件\Bindable</Filter>
     </ClInclude>
-    <ClInclude Include="Box.h">
-      <Filter>源文件\Drawable</Filter>
-    </ClInclude>
     <ClInclude Include="BindableBase.h">
       <Filter>源文件\Bindable</Filter>
     </ClInclude>
     <ClInclude Include="DrawableBase.h">
       <Filter>源文件\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexedTriangleList.h">
+      <Filter>源文件\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube.h">
+      <Filter>源文件\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Plane.h">
+      <Filter>源文件\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="ChiliMath.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Prism.h">
+      <Filter>源文件\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Sphere.h">
+      <Filter>源文件\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Cone.h">
+      <Filter>源文件\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Melon.h">
+      <Filter>源文件\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Pyramid.h">
+      <Filter>源文件\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Box.h">
+      <Filter>源文件\Primitive</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -183,10 +219,16 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="VertexShader.hlsl">
+    <FxCompile Include="ColorIndexVS.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="PixelShader.hlsl">
+    <FxCompile Include="ColorIndexPS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="ColorBlendVS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="ColorBlendPS.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>
