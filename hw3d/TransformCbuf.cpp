@@ -6,7 +6,7 @@ TransformCbuf::TransformCbuf(Graphics& gfx, const Drawable& parent)
 {
 	if (!pVcbuf)
 	{
-		pVcbuf = std::make_unique< VertextConstantBuffer<DirectX::XMMATRIX >>(gfx);
+		pVcbuf = std::make_unique< VertexConstantBuffer<DirectX::XMMATRIX >>(gfx);
 	}
 }
 
@@ -20,4 +20,4 @@ void TransformCbuf::Bind(Graphics& gfx) noexcept
 	
 	pVcbuf->Bind(gfx);
 }
-std::unique_ptr<VertextConstantBuffer<DirectX::XMMATRIX>> TransformCbuf::pVcbuf;
+std::unique_ptr<VertexConstantBuffer<DirectX::XMMATRIX>> TransformCbuf::pVcbuf;

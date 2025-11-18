@@ -53,7 +53,7 @@ protected:
 };
 
 template<typename C>
-class VertextConstantBuffer : public ConstantBuffer<C>
+class VertexConstantBuffer : public ConstantBuffer<C>
 {
 	//引入父类的构造函数
 	using ConstantBuffer<C>::pConstantBuffer;
