@@ -2,11 +2,6 @@
 #include <exception>
 #include <string>
 
-#ifdef NDEBUG
-#define IS_DEBUG true
-#else
-#define IS_DEBUG false
-#endif
 
 class ChiliException
 {
