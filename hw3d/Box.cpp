@@ -89,6 +89,11 @@ Box::Box(Graphics& gfx, std::mt19937& rng, std::uniform_real_distribution<float>
 
 		AddStaticBind(std::make_unique<Topology>(gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
 	}
+	else
+	{
+		//表面pIndexBuffer已经存在 去staticBinds里面查找
+		SetIndexFromStatic();
+	}
 	
 	//每个object都有自己的matrix
 	AddBind(std::make_unique<TransformCbuf>(gfx, *this));
