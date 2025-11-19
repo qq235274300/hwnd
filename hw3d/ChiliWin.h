@@ -4,6 +4,7 @@
 #include <sdkddkver.h>
 
 //使Winodws不再包含相关API 精简头文件体积 减少编译时间
+#ifndef FULL_WINTARD
 #define WIN32_LEAN_AND_MEAN
 #define NOGDICAPMASKS
 #define NOSYSMETRICS
@@ -21,7 +22,6 @@
 //#define NONLS
 #define NOMEMMGR
 #define NOMETAFILE
-#define NOMINMAX
 #define NOOPENFILE
 #define NOSCROLL
 #define NOSERVICE
@@ -38,7 +38,11 @@
 #define NOPROXYSTUB
 #define NOIMAGE
 #define NOTAPE
+#endif
+
+#define NOMINMAX
 //严格类型区分
 #define STRICT
+
 
 #include <Windows.h>
