@@ -111,6 +111,9 @@
     <ClCompile Include="Sheet.cpp">
       <Filter>源文件\Primitive</Filter>
     </ClCompile>
+    <ClCompile Include="SkinnedBox.cpp">
+      <Filter>源文件\Primitive</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -234,6 +237,9 @@
       <Filter>源文件\Bindable</Filter>
     </ClInclude>
     <ClInclude Include="Sheet.h">
+      <Filter>源文件\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="SkinnedBox.h">
       <Filter>源文件\Primitive</Filter>
     </ClInclude>
   </ItemGroup>
