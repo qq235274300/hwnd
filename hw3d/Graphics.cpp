@@ -6,6 +6,7 @@
 #include <DirectXMath.h>
 #include "GraphicsThrowMacros.h"
 #include "Imgui/imgui_impl_dx11.h"
+#include "imgui/imgui_impl_win32.h"
 
 #pragma comment(lib,"d3d11.lib")
 #pragma comment(lib,"D3DCompiler.lib")
@@ -116,10 +117,14 @@ Graphics::Graphics(HWND hWnd)
 
 void Graphics::EndFrame()
 {
+	if (imguiEnabled)
+	{
+		ImGui::Render();
+		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+	}
 #ifndef NDEBUG
 	infoManager.Set();
 #endif
-
 	//0u表示不等待显示的刷新 1u表示等待一次也就是60帧 2u表示等待2次 也就是30帧
 	HRESULT hr;
 	if (FAILED(hr = pSwap->Present(1u, 0u)))
@@ -135,8 +140,15 @@ void Graphics::EndFrame()
 	}
 }
 
-void Graphics::ClearBuffer(float red, float green, float blue) noexcept
+void Graphics::BeginFrame(float red, float green, float blue) noexcept
 {
+	if (imguiEnabled)
+	{
+		ImGui_ImplDX11_NewFrame();
+		ImGui_ImplWin32_NewFrame();
+		ImGui::NewFrame();
+	}
+
 	const float color[] = { red,green,blue,1.0f };
 	pContext->ClearRenderTargetView(pTarget.Get(), color);
 	pContext->ClearDepthStencilView(pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
@@ -328,6 +340,21 @@ void Graphics::SetProjection(DirectX::FXMMATRIX proj) noexcept
 DirectX::XMMATRIX Graphics::GetProjection() const noexcept
 {
 	return projection;
+}
+
+void Graphics::EnableImgui() noexcept
+{
+	imguiEnabled = true;
+}
+
+void Graphics::DisableImgui() noexcept
+{
+	imguiEnabled = false;
+}
+
+bool Graphics::IsImguiEnabled() const noexcept
+{
+	return imguiEnabled;
 }
 
 Graphics::HrException::HrException(int line, const char* file, HRESULT hr, std::vector<std::string> infoMsgs) noexcept

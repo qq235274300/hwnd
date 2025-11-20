@@ -58,11 +58,17 @@ public:
 	Graphics& operator=(const Graphics&) = delete;
 	~Graphics() = default;
 	void EndFrame();
-	void ClearBuffer(float red, float green, float blue) noexcept;
+	void BeginFrame(float red, float green, float blue) noexcept;
 	void DrawTestTriangle(float angle, float x, float z);
 	void DrawIndexed(UINT count) noexcept(!IS_DEBUG);
 	void SetProjection(DirectX::FXMMATRIX proj) noexcept;
 	DirectX::XMMATRIX GetProjection() const noexcept;
+
+	//Imgui
+	void EnableImgui()noexcept;
+	void DisableImgui()noexcept;
+	bool IsImguiEnabled()const noexcept;
+	
 private:
 #ifndef NDEBUG
 	DxgiInfoManager infoManager;
@@ -75,5 +81,6 @@ private:
 
 private:
 	DirectX::XMMATRIX projection;
+	bool imguiEnabled = true;
 };
 
