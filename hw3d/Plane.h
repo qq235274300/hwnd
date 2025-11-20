@@ -72,4 +72,4 @@ public:
 	{
 		return MakeTesselated<V>(1, 1);
 	}
-}; #pragma once
+}; 
