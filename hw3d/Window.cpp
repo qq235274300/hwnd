@@ -2,6 +2,7 @@
 #include "WindowsMessageMap.h"
 #include <sstream>
 #include "WindowsThrowMacros.h"
+#include "Imgui/imgui_impl_win32.h"
 
 Window::WindowClass Window::WindowClass::wndClass;
 
@@ -59,11 +60,16 @@ Window::Window(int width, int height, const wchar_t* name)
 		throw CHWND_LAST_EXCEPT();
 	}
 	ShowWindow(hWnd, SW_SHOWDEFAULT);
+
+	//Init Imgui Win32 Impl
+	ImGui_ImplWin32_Init(hWnd);
+
 	pGfx = std::make_unique<Graphics>(hWnd);
 }
 
 Window::~Window()
 {
+	ImGui_ImplWin32_Shutdown();
 	DestroyWindow(hWnd);
 }
 
@@ -129,6 +135,11 @@ LRESULT CALLBACK Window::HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 
 LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
+	{
+		return true;
+	}
+
 	static WindowsMessageMap mm;
 	std::string wndMessage = mm(msg, lParam, wParam).c_str();
 	//OutputDebugStringA(wndMessage.c_str());

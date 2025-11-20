@@ -11,6 +11,9 @@
 #include "ChiliMath.h"
 #include "Surface.h"
 #include "GDIPlusManager.h"
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_win32.h"
+#include "imgui/imgui_impl_dx11.h"
 
 GDIPlusManager gdipm;
 
@@ -112,7 +115,19 @@ void App::DoFrame()
 		d->Update(wnd.kbd.KeyIsPressed(VK_SPACE) ? 0.0f : dt);
 		d->Draw(wnd.Gfx());
 	}
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
 
+	static bool show_imgui_demowindow = true;
+	if (show_imgui_demowindow)
+	{
+		ImGui::ShowDemoWindow(&show_imgui_demowindow);
+	}
+
+	ImGui::Render();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+	
 
 	wnd.Gfx().EndFrame();
 }

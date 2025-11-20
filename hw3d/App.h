@@ -2,6 +2,7 @@
 #include "Window.h"
 #include <string>
 #include "ChiliTimer.h"
+#include "ImguiManager.h"
 class App
 {
 public:
@@ -11,6 +12,9 @@ public:
 private:
 	void DoFrame();
 private:
+	//最先构造
+	ImguiManager imgui;
+
 	const wchar_t* wndName = L"hwdDumb";
 	Window wnd;
 	ChiliTimer timer;
