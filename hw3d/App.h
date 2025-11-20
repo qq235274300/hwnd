@@ -3,6 +3,7 @@
 #include <string>
 #include "ChiliTimer.h"
 #include "ImguiManager.h"
+#include "Camera.h"
 class App
 {
 public:
@@ -14,10 +15,11 @@ private:
 private:
 	//最先构造
 	ImguiManager imgui;
-
+	
 	const wchar_t* wndName = L"hwdDumb";
 	Window wnd;
 	ChiliTimer timer;
+	Camera camera;
 
 	std::vector<std::unique_ptr<class Drawable>> drawables;
 	static constexpr size_t nDrawables = 180;

@@ -15,7 +15,7 @@
 
 GDIPlusManager gdipm;
 
-App::App(): wnd(800, 600, wndName)
+App::App(): wnd(1200, 900, wndName)
 {
 	class Factory
 	{
@@ -106,6 +106,7 @@ void App::DoFrame()
 	
 	const float c = std::clamp(sin(dt), 0.0f, 1.0f);
 	wnd.Gfx().BeginFrame(c, c, 1.0f);
+	wnd.Gfx().SetCamera(camera.GetMatrix());
 
 	for (auto& d : drawables)
 	{
@@ -116,12 +117,13 @@ void App::DoFrame()
 	static char buffer[1024];
 	if (ImGui::Begin("Simulation Speed"))
 	{
-		ImGui::SliderFloat("Speed Factor", &speed_factor, 0.0f, 4.0f);
+		ImGui::SliderFloat("Speed Factor", &speed_factor, 0.0f, 20.0f);
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 		ImGui::InputText("Butts", buffer, sizeof(buffer));
 	}
 	ImGui::End();
 	
+	camera.SpawnControlWindow();
 
 	wnd.Gfx().EndFrame();
 }
