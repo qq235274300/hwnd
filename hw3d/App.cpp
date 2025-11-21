@@ -15,7 +15,7 @@
 
 GDIPlusManager gdipm;
 
-App::App(): wnd(1200, 900, wndName)
+App::App(): wnd(1200, 900, wndName), light(wnd.Gfx())
 {
 	class Factory
 	{
@@ -26,7 +26,12 @@ App::App(): wnd(1200, 900, wndName)
 		{}
 		std::unique_ptr<Drawable> operator()()
 		{
-			switch (typedist(rng))
+			return std::make_unique<Box>(
+				gfx, rng, adist, ddist,
+				odist, rdist, bdist
+			);
+
+			/*switch (typedist(rng))
 			{
 			case 0:
 				return std::make_unique<Pyramid>(
@@ -56,7 +61,7 @@ App::App(): wnd(1200, 900, wndName)
 			default:
 				assert(false && "bad drawable type in factory");
 				return {};
-			}
+			}*/
 		}
 	private:
 		Graphics& gfx;
@@ -66,9 +71,9 @@ App::App(): wnd(1200, 900, wndName)
 		std::uniform_real_distribution<float> odist{ 0.0f,PI * 0.08f };
 		std::uniform_real_distribution<float> rdist{ 6.0f,20.0f };
 		std::uniform_real_distribution<float> bdist{ 0.4f,3.0f };
-		std::uniform_int_distribution<int> latdist{ 5,20 };
-		std::uniform_int_distribution<int> longdist{ 10,40 };
-		std::uniform_int_distribution<int> typedist{ 0,4 };//生成随机值
+		//std::uniform_int_distribution<int> latdist{ 5,20 };
+		//std::uniform_int_distribution<int> longdist{ 10,40 };
+		//std::uniform_int_distribution<int> typedist{ 0,4 };//生成随机值
 	};
 
 	Factory f(wnd.Gfx());
@@ -107,12 +112,14 @@ void App::DoFrame()
 	const float c = std::clamp(sin(dt), 0.0f, 1.0f);
 	wnd.Gfx().BeginFrame(c, c, 1.0f);
 	wnd.Gfx().SetCamera(camera.GetMatrix());
+	light.Bind(wnd.Gfx());
 
 	for (auto& d : drawables)
 	{
 		d->Update(wnd.kbd.KeyIsPressed(VK_SPACE) ? 0.0f : dt);
 		d->Draw(wnd.Gfx());
 	}
+	light.Draw(wnd.Gfx());
 	
 	static char buffer[1024];
 	if (ImGui::Begin("Simulation Speed"))
@@ -122,8 +129,10 @@ void App::DoFrame()
 		ImGui::InputText("Butts", buffer, sizeof(buffer));
 	}
 	ImGui::End();
+
 	
 	camera.SpawnControlWindow();
+	light.SpawnControlWindow();
 
 	wnd.Gfx().EndFrame();
 }

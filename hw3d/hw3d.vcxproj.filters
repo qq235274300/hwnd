@@ -28,6 +28,9 @@
     <Filter Include="头文件\imgui">
       <UniqueIdentifier>{9476b442-5b67-4c7b-8099-86fe6e36c83b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\Lights">
+      <UniqueIdentifier>{7015de5b-bffe-4f6a-b229-f8ba1f8f7540}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -137,6 +140,15 @@
     </ClCompile>
     <ClCompile Include="ImguiManager.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SolidSphere.cpp">
+      <Filter>源文件\Primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLight.cpp">
+      <Filter>源文件\Lights</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -293,6 +305,15 @@
     <ClInclude Include="ImguiManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SolidSphere.h">
+      <Filter>源文件\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLight.h">
+      <Filter>源文件\Lights</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXGetErrorDescription.inl">
@@ -322,6 +343,18 @@
       <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="TexturePS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="PhongVS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="PhongPS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="SolidVS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="SolidPS.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>

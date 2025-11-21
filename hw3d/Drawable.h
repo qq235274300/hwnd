@@ -20,6 +20,6 @@ private:
 	virtual const std::vector<std::unique_ptr<class Bindable>>& GetStaticBinds() const noexcept = 0;
 private:
 	std::vector<std::unique_ptr<class Bindable>> binds;
-	const class IndexBuffer* pIndexBuffer;
+	const class IndexBuffer* pIndexBuffer = nullptr;
 };
 
