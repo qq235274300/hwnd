@@ -25,8 +25,9 @@ SolidSphere::SolidSphere(Graphics& gfx, float radius)
 		AddStaticBind(std::make_unique<PixelShader>(gfx, L"SolidPS.cso"));
 
 		struct PSColorConstant
-		{
-			dx::XMFLOAT3 color = { 1.0f,1.0f,1.0f };
+		{ 
+			//float3 不能直接填满一个 slot ,slot 边界是 float4 必须手动补齐（padding）	
+			dx::XMFLOAT3 color = { 1.0f,0.0f,0.0f };
 			float padding;
 		} colorConst;
 		AddStaticBind(std::make_unique<PixelConstantBuffer<PSColorConstant>>(gfx, colorConst));
