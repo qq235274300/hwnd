@@ -150,6 +150,9 @@
     <ClCompile Include="PointLight.cpp">
       <Filter>源文件\Lights</Filter>
     </ClCompile>
+    <ClCompile Include="Cylinder.cpp">
+      <Filter>源文件\Primitive</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -314,6 +317,12 @@
     <ClInclude Include="PointLight.h">
       <Filter>源文件\Lights</Filter>
     </ClInclude>
+    <ClInclude Include="TestObject.h">
+      <Filter>源文件\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Cylinder.h">
+      <Filter>源文件\Primitive</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXGetErrorDescription.inl">
@@ -355,6 +364,9 @@
       <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="SolidPS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="IndexedPhongPS.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>
