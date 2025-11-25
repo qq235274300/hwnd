@@ -13,11 +13,22 @@
 #include "Surface.h"
 #include "GDIPlusManager.h"
 #include "imgui/imgui.h"
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
 
 GDIPlusManager gdipm;
 
 App::App(): wnd(1200, 900, wndName), light(wnd.Gfx())
 {
+	Assimp::Importer imp;
+	auto model = imp.ReadFile("Models\\suzanne.obj",
+		aiProcess_Triangulate |
+		aiProcess_JoinIdenticalVertices);
+	
+	
+
 	class Factory
 	{
 	public:
@@ -54,38 +65,6 @@ App::App(): wnd(1200, 900, wndName), light(wnd.Gfx())
 				assert(false && "impossible drawable option in factory");
 				return {};
 			}
-
-			/*switch (typedist(rng))
-			{
-			case 0:
-				return std::make_unique<Pyramid>(
-					gfx, rng, adist, ddist,
-					odist, rdist
-				);
-			case 1:
-				return std::make_unique<Box>(
-					gfx, rng, adist, ddist,
-					odist, rdist, bdist
-				);
-			case 2:
-				return std::make_unique<Melon>(
-					gfx, rng, adist, ddist,
-					odist, rdist, longdist, latdist
-				);
-			case 3:
-				return std::make_unique<Sheet>(
-					gfx, rng, adist, ddist,
-					odist, rdist
-				);
-			case 4:
-				return std::make_unique<SkinnedBox>(
-					gfx, rng, adist, ddist,
-					odist, rdist
-				);
-			default:
-				assert(false && "bad drawable type in factory");
-				return {};
-			}*/
 		}
 	private:
 		Graphics& gfx;

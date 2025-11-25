@@ -31,6 +31,9 @@
     <Filter Include="源文件\Lights">
       <UniqueIdentifier>{7015de5b-bffe-4f6a-b229-f8ba1f8f7540}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\assimp">
+      <UniqueIdentifier>{65506960-cc6e-47a8-aa47-8d8262198115}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -323,6 +326,126 @@
     <ClInclude Include="Cylinder.h">
       <Filter>源文件\Primitive</Filter>
     </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\ai_assert.h">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\anim.h">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\camera.h">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\cexport.h">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\cfileio.h">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\cimport.h">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\color4.h">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\Compiler\poppack1.h">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\Compiler\pstdint.h">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\Compiler\pushpack1.h">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\config.h">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\DefaultIOStream.h">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\DefaultIOSystem.h">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\DefaultLogger.hpp">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\Defines.h">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\defs.h">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\Exporter.hpp">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\Importer.hpp">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\importerdesc.h">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\IOStream.hpp">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\IOSystem.hpp">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\light.h">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\Logger.hpp">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\LogStream.hpp">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\material.h">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\matrix3x3.h">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\matrix4x4.h">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\mesh.h">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\metadata.h">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\NullLogger.hpp">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\postprocess.h">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\ProgressHandler.hpp">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\quaternion.h">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\scene.h">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\SceneCombiner.h">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\texture.h">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\types.h">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\vector2.h">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\vector3.h">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\assimp\version.h">
+      <Filter>头文件\assimp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXGetErrorDescription.inl">
@@ -333,6 +456,27 @@
     </None>
     <None Include="DXTrace.inl">
       <Filter>头文件</Filter>
+    </None>
+    <None Include="Assimp\include\assimp\color4.inl">
+      <Filter>头文件\assimp</Filter>
+    </None>
+    <None Include="Assimp\include\assimp\material.inl">
+      <Filter>头文件\assimp</Filter>
+    </None>
+    <None Include="Assimp\include\assimp\matrix3x3.inl">
+      <Filter>头文件\assimp</Filter>
+    </None>
+    <None Include="Assimp\include\assimp\matrix4x4.inl">
+      <Filter>头文件\assimp</Filter>
+    </None>
+    <None Include="Assimp\include\assimp\quaternion.inl">
+      <Filter>头文件\assimp</Filter>
+    </None>
+    <None Include="Assimp\include\assimp\vector2.inl">
+      <Filter>头文件\assimp</Filter>
+    </None>
+    <None Include="Assimp\include\assimp\vector3.inl">
+      <Filter>头文件\assimp</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
