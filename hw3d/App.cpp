@@ -16,7 +16,7 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
-
+#include "AssTest.h"
 
 GDIPlusManager gdipm;
 
@@ -61,6 +61,11 @@ App::App(): wnd(1200, 900, wndName), light(wnd.Gfx())
 					gfx, rng, adist, ddist,
 					odist, rdist
 				);
+			case 4:
+				return std::make_unique<AssTest>(
+					gfx, rng, adist, ddist,
+					odist, rdist, mat, 1.5f
+				);
 			default:
 				assert(false && "impossible drawable option in factory");
 				return {};
@@ -69,7 +74,7 @@ App::App(): wnd(1200, 900, wndName), light(wnd.Gfx())
 	private:
 		Graphics& gfx;
 		std::mt19937 rng{ std::random_device{}() };
-		std::uniform_int_distribution<int> sdist{ 0,3 };
+		std::uniform_int_distribution<int> sdist{ 0,4 };
 		std::uniform_real_distribution<float> adist{ 0.0f,PI * 2.0f };
 		std::uniform_real_distribution<float> ddist{ 0.0f,PI * 0.5f };
 		std::uniform_real_distribution<float> odist{ 0.0f,PI * 0.08f };

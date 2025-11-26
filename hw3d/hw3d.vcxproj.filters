@@ -34,6 +34,9 @@
     <Filter Include="头文件\assimp">
       <UniqueIdentifier>{65506960-cc6e-47a8-aa47-8d8262198115}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\Models">
+      <UniqueIdentifier>{487e0ff0-85e5-4b90-a866-117c279752fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -155,6 +158,9 @@
     </ClCompile>
     <ClCompile Include="Cylinder.cpp">
       <Filter>源文件\Primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="AssTest.cpp">
+      <Filter>源文件\Models</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -445,6 +451,9 @@
     </ClInclude>
     <ClInclude Include="Assimp\include\assimp\version.h">
       <Filter>头文件\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="AssTest.h">
+      <Filter>源文件\Models</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

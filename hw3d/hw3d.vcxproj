@@ -160,6 +160,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="AssTest.cpp" />
     <ClCompile Include="Bindable.cpp" />
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -242,6 +243,7 @@
     <ClInclude Include="Assimp\include\assimp\vector2.h" />
     <ClInclude Include="Assimp\include\assimp\vector3.h" />
     <ClInclude Include="Assimp\include\assimp\version.h" />
+    <ClInclude Include="AssTest.h" />
     <ClInclude Include="Bindable.h" />
     <ClInclude Include="BindableBase.h" />
     <ClInclude Include="Box.h" />
