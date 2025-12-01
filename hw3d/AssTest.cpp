@@ -13,32 +13,28 @@ AssTest::AssTest(Graphics& gfx, std::mt19937& rng, std::uniform_real_distributio
 	namespace dx = DirectX;
 	if (!IsStaticInitialized()) 
 	{
-		struct Vertex
-		{
-			dx::XMFLOAT3 pos;
-			dx::XMFLOAT3 n;
-		};
+		hw3dexp::VertexBuffer vbf(std::move(
+			hw3dexp::VertexLayout{}.Append<hw3dexp::VertexLayout::Position3D>().
+			Append<hw3dexp::VertexLayout::Normal>()
+		));
+
 		Assimp::Importer imp;
 		//把所有面变成三角形  合并重复顶点
 		auto model = imp.ReadFile("Models\\suzanne.obj",
 			aiProcess_Triangulate |
 			aiProcess_JoinIdenticalVertices);
 
-		std::vector<Vertex> vertices;
 		std::vector<unsigned short> indices;
 
 		auto pMesh = model->mMeshes[0];
 		
 		//添加顶点信息
-		vertices.reserve(pMesh->mNumVertices);
 		for (int i = 0; i < pMesh->mNumVertices; ++i)
 		{
-			vertices.push_back(
-				{
-					{pMesh->mVertices[i].x * scale,pMesh->mVertices[i].y * scale,pMesh->mVertices[i].z * scale },
-					*reinterpret_cast<dx::XMFLOAT3*>(&pMesh->mNormals[i])
-				}
-			);
+
+			vbf.EmplaceBack(
+				dx::XMFLOAT3(pMesh->mVertices[i].x * scale, pMesh->mVertices[i].y * scale,
+					pMesh->mVertices[i].z * scale), *reinterpret_cast<dx::XMFLOAT3*>(&pMesh->mNormals[i]));
 		}
 
 		//添加index信息
@@ -52,7 +48,7 @@ AssTest::AssTest(Graphics& gfx, std::mt19937& rng, std::uniform_real_distributio
 			indices.push_back(face.mIndices[2]);
 		}
 		
-		AddStaticBind(std::make_unique<VertexBuffer>(gfx, vertices));
+		AddStaticBind(std::make_unique<VertexBuffer>(gfx, vbf));
 		AddStaticIndexBuffer(std::make_unique<IndexBuffer>(gfx, indices));
 
 		auto pvs = std::make_unique<VertexShader>(gfx, L"PhongVS.cso");

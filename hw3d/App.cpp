@@ -17,30 +17,11 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include "AssTest.h"
-#include "Vertex.h"
-
 
 GDIPlusManager gdipm;
 
-void f()
-{
-	//当前一个Vertex 属性为Position3D Normal
-	VertexLayout vl;
-	vl.Append<VertexLayout::Position3D>().Append<VertexLayout::Normal>();
-	
-	VertexBuffer vb(std::move(vl));
-	//添加一个顶点
-	vb.EmplaceBack(DirectX::XMFLOAT3{ 1.0f,1.0f,5.0f }, DirectX::XMFLOAT3{ 1.0f,1.0f,5.0f });
-	//获得第一个元素中类型的值
-	auto pos = vb[0].Attr<VertexLayout::Position3D>();
-
-}
-
 App::App(): wnd(1200, 900, wndName), light(wnd.Gfx())
 {
-	
-	f();
-
 	class Factory
 	{
 	public:
