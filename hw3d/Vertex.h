@@ -226,6 +226,7 @@ protected:
 	{
 	
 	}
+	//调用此函数
 	template<typename First,typename ...Rest>
 	void SetAttributeByIndex(size_t i ,First&& first, Rest&& ...rest) noexcept(!IS_DEBUG)
 	{
