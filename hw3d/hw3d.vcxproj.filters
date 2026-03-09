@@ -162,6 +162,9 @@
     <ClCompile Include="AssTest.cpp">
       <Filter>源文件\Models</Filter>
     </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -456,6 +459,9 @@
       <Filter>源文件\Models</Filter>
     </ClInclude>
     <ClInclude Include="Vertex.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

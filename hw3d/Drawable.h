@@ -11,7 +11,7 @@ public:
 	virtual ~Drawable() = default;
 
 	void Draw(Graphics& gfx)const noexcept(!IS_DEBUG);
-	virtual void Update(float dt) noexcept = 0;
+	virtual void Update(float dt) noexcept {}; // 改为非必须继承
 	virtual DirectX::XMMATRIX GetTransformXM() const noexcept = 0;
 protected:
 	template<class T>
