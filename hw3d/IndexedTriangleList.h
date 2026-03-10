@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include "ConditionalNoexcept.h"
 template<class T>
 class IndexedTriangleList
 {
@@ -12,7 +13,7 @@ public:
 		assert(indices.size() % 3 == 0);
 	}
 
-	void SetNormalsIndependentFlat() noexcept(!IS_DEBUG)
+	void SetNormalsIndependentFlat() noxnd
 	{
 		using namespace DirectX;
 		assert(indices.size() % 3 == 0 && indices.size() > 0);

@@ -99,15 +99,6 @@
     <ClCompile Include="TransformCbuf.cpp">
       <Filter>源文件\Bindable</Filter>
     </ClCompile>
-    <ClCompile Include="Melon.cpp">
-      <Filter>源文件\Primitive</Filter>
-    </ClCompile>
-    <ClCompile Include="Pyramid.cpp">
-      <Filter>源文件\Primitive</Filter>
-    </ClCompile>
-    <ClCompile Include="Box.cpp">
-      <Filter>源文件\Primitive</Filter>
-    </ClCompile>
     <ClCompile Include="GDIPlusManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -119,12 +110,6 @@
     </ClCompile>
     <ClCompile Include="Sampler.cpp">
       <Filter>源文件\Bindable</Filter>
-    </ClCompile>
-    <ClCompile Include="Sheet.cpp">
-      <Filter>源文件\Primitive</Filter>
-    </ClCompile>
-    <ClCompile Include="SkinnedBox.cpp">
-      <Filter>源文件\Primitive</Filter>
     </ClCompile>
     <ClCompile Include="Imgui\imgui.cpp">
       <Filter>头文件\imgui</Filter>
@@ -156,13 +141,13 @@
     <ClCompile Include="PointLight.cpp">
       <Filter>源文件\Lights</Filter>
     </ClCompile>
-    <ClCompile Include="Cylinder.cpp">
-      <Filter>源文件\Primitive</Filter>
-    </ClCompile>
     <ClCompile Include="AssTest.cpp">
       <Filter>源文件\Models</Filter>
     </ClCompile>
-    <ClCompile Include="Model.cpp">
+    <ClCompile Include="Mesh.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertex.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -242,9 +227,6 @@
     <ClInclude Include="BindableBase.h">
       <Filter>源文件\Bindable</Filter>
     </ClInclude>
-    <ClInclude Include="DrawableBase.h">
-      <Filter>源文件\Drawable</Filter>
-    </ClInclude>
     <ClInclude Include="IndexedTriangleList.h">
       <Filter>源文件\Drawable</Filter>
     </ClInclude>
@@ -266,15 +248,6 @@
     <ClInclude Include="Cone.h">
       <Filter>源文件\Primitive</Filter>
     </ClInclude>
-    <ClInclude Include="Melon.h">
-      <Filter>源文件\Primitive</Filter>
-    </ClInclude>
-    <ClInclude Include="Pyramid.h">
-      <Filter>源文件\Primitive</Filter>
-    </ClInclude>
-    <ClInclude Include="Box.h">
-      <Filter>源文件\Primitive</Filter>
-    </ClInclude>
     <ClInclude Include="GDIPlusManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -286,12 +259,6 @@
     </ClInclude>
     <ClInclude Include="Sampler.h">
       <Filter>源文件\Bindable</Filter>
-    </ClInclude>
-    <ClInclude Include="Sheet.h">
-      <Filter>源文件\Primitive</Filter>
-    </ClInclude>
-    <ClInclude Include="SkinnedBox.h">
-      <Filter>源文件\Primitive</Filter>
     </ClInclude>
     <ClInclude Include="Imgui\imconfig.h">
       <Filter>头文件\imgui</Filter>
@@ -330,9 +297,6 @@
       <Filter>源文件\Lights</Filter>
     </ClInclude>
     <ClInclude Include="TestObject.h">
-      <Filter>源文件\Primitive</Filter>
-    </ClInclude>
-    <ClInclude Include="Cylinder.h">
       <Filter>源文件\Primitive</Filter>
     </ClInclude>
     <ClInclude Include="Assimp\include\assimp\ai_assert.h">
@@ -461,8 +425,20 @@
     <ClInclude Include="Vertex.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Model.h">
+    <ClInclude Include="Mesh.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="BindableCommon.h">
+      <Filter>源文件\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="ConditionalNoexcept.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawableBase.h">
+      <Filter>源文件\Drawable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -504,18 +480,6 @@
     <FxCompile Include="ColorIndexPS.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="ColorBlendVS.hlsl">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="ColorBlendPS.hlsl">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="TextureVS.hlsl">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="TexturePS.hlsl">
-      <Filter>Shader</Filter>
-    </FxCompile>
     <FxCompile Include="PhongVS.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
@@ -526,21 +490,6 @@
       <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="SolidPS.hlsl">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="IndexedPhongPS.hlsl">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="BlendedPhongVS.hlsl">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="BlendedPhongPS.hlsl">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="TexturedPhongVS.hlsl">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="TexturedPhongPS.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>

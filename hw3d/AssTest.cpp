@@ -1,11 +1,12 @@
 #include "AssTest.h"
-#include "BindableBase.h"
+#include "BindableCommon.h"
 #include "GraphicsThrowMacros.h"
 #include <assert.h>
 #include <assimp/scene.h>
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 
+using namespace Bind;
 
 AssTest::AssTest(Graphics& gfx, std::mt19937& rng, std::uniform_real_distribution<float>& adist, std::uniform_real_distribution<float>& ddist, std::uniform_real_distribution<float>& odist, std::uniform_real_distribution<float>& rdist, DirectX::XMFLOAT3 material, float scale)
 	:TestObject(gfx,rng,adist,ddist, odist, rdist)
@@ -13,9 +14,10 @@ AssTest::AssTest(Graphics& gfx, std::mt19937& rng, std::uniform_real_distributio
 	namespace dx = DirectX;
 	if (!IsStaticInitialized()) 
 	{
-		hw3dexp::VertexBuffer vbf(std::move(
-			hw3dexp::VertexLayout{}.Append(hw3dexp::VertexLayout::Position3D).
-			Append(hw3dexp::VertexLayout::Normal)
+		using Dvtx::VertexLayout;
+		Dvtx::VertexBuffer vbf(std::move(
+			Dvtx::VertexLayout{}.Append(VertexLayout::Position3D).
+			Append(VertexLayout::Normal)
 		));
 
 		Assimp::Importer imp;

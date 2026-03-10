@@ -1,12 +1,6 @@
 #include "App.h"
 #include "ChiliStringHelper.h"
 #include <sstream>
-#include "Melon.h"
-#include "Pyramid.h"
-#include "Box.h"
-#include "SkinnedBox.h"
-#include "Sheet.h"
-#include "Cylinder.h"
 #include <memory>
 #include <algorithm>
 #include "ChiliMath.h"
