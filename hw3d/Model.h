@@ -48,11 +48,12 @@ private:
 class Node
 {
 	//每一个Node 有一个或多个mesh  存在自己的transform 一个多个child
+	friend class Model;
 public:
-	Node(std::vector<Mesh*> Meshs, DirectX::XMMATRIX& inTransform)noexcept(!IS_DEBUG)
+	Node(std::vector<Mesh*> Meshs, const DirectX::XMMATRIX& inTransform)noexcept(!IS_DEBUG)
 		: meshPtrs(std::move(Meshs))
 	{
-		DirectX::XMStoreFloat4x4(&transform, inTransform);
+		DirectX::XMStoreFloat4x4(&this->transform, inTransform);
 	}
 
 	void Draw(Graphics& gfx, DirectX::FXMMATRIX accmulatedTransform)const noexcept(!IS_DEBUG)
@@ -87,6 +88,21 @@ private:
 class Model 
 {
 public:
+
+	Model(Graphics& gfx, const std::string fileName)
+	{
+		Assimp::Importer imp;
+		const auto pScene = imp.ReadFile(fileName.c_str(), aiProcess_Triangulate |
+			aiProcess_JoinIdenticalVertices);
+
+		for (size_t i = 0; i < pScene->mNumMeshes; ++i)
+		{
+			meshPtrs.push_back(ParseMesh(gfx, *pScene->mMeshes[i]));
+		}
+		
+		pRoot = ParseNode(*pScene->mRootNode);
+	}
+
 	std::unique_ptr<Mesh> ParseMesh(Graphics& gfx, const aiMesh& mesh)
 	{
 		
@@ -138,7 +154,30 @@ public:
 	}
 	std::unique_ptr<Node> ParseNode(const aiNode& node)
 	{
+		namespace dx = DirectX;
+		const auto transform = 
+		dx::XMMatrixTranspose(dx::XMLoadFloat4x4(reinterpret_cast<const dx::XMFLOAT4X4*>(&node.mTransformation)));
+	
+		std::vector<Mesh*> CurrentMeshs;
+		CurrentMeshs.reserve(node.mNumMeshes);
+		for (size_t i = 0; i < node.mNumMeshes; ++i)
+		{
+			CurrentMeshs.push_back(meshPtrs.at(node.mMeshes[i]).get());
+		}
 		
+		auto pNode = std::make_unique<Node>(std::move(CurrentMeshs), transform);
+		
+		for (size_t i = 0; i < node.mNumChildren; ++i)
+		{
+			pNode->AddChild(ParseNode(*node.mChildren[i]));
+		}
+
+		return pNode;
+	}
+
+	void Draw(Graphics& gfx,DirectX::FXMMATRIX transform) const
+	{
+		pRoot->Draw(gfx, transform);
 	}
 private:
 	std::unique_ptr<Node> pRoot;
