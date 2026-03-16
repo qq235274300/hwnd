@@ -45,35 +45,25 @@ void App::DoFrame()
 	wnd.Gfx().SetCamera(camera.GetMatrix());
 	light.Bind(wnd.Gfx(),camera.GetMatrix());
 
-	const auto transform = DirectX::XMMatrixRotationRollPitchYaw(pos.roll, pos.pitch, pos.yaw) *
-		DirectX::XMMatrixTranslation(pos.x, pos.y, pos.z);
-	nano.Draw(wnd.Gfx(),transform);
+	
+	nano.Draw(wnd.Gfx());
 	light.Draw(wnd.Gfx());
 	
 	camera.SpawnControlWindow();
 	light.SpawnControlWindow();
-	ShowModelWindow();
+	ShowImguiDemoWindow();
+	nano.ShowWindow();
 
 	wnd.Gfx().EndFrame();
 }
 
-void App::ShowModelWindow()
+void App::ShowImguiDemoWindow()
 {
-	if (ImGui::Begin("Model"))
+	static bool showdemowindow = true;
+	if (showdemowindow)
 	{
-		using namespace std::string_literals;
-
-		ImGui::Text("Orientation");
-		ImGui::SliderAngle("Roll", &pos.roll, -180.0f, 180.0f);
-		ImGui::SliderAngle("Pitch", &pos.pitch, -180.0f, 180.0f);
-		ImGui::SliderAngle("Yaw", &pos.yaw, -180.0f, 180.0f);
-
-		ImGui::Text("Position");
-		ImGui::SliderFloat("X", &pos.x, -20.0f, 20.0f);
-		ImGui::SliderFloat("Y", &pos.y, -20.0f, 20.0f);
-		ImGui::SliderFloat("Z", &pos.z, -20.0f, 20.0f);
+		ImGui::ShowDemoWindow(&showdemowindow);
 	}
-	ImGui::End();
 }
 
 
