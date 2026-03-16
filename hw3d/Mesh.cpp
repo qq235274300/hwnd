@@ -1,6 +1,7 @@
 #include "Mesh.h"
 #include "Imgui/imgui.h"
 #include <unordered_map>
+#include <sstream>
 // Mesh
 Mesh::Mesh(Graphics& gfx, std::vector<std::unique_ptr<Bind::Bindable>> bindPtrs)
 {
@@ -66,13 +67,11 @@ void Node::ShowTree(int& nodeIndexTracked, std::optional<int>& selectedIndex,Nod
 		((currentNodeIndex == selectedIndex.value_or(-1)) ? ImGuiTreeNodeFlags_Selected : 0)
 		| (childPtrs.empty() ?  ImGuiTreeNodeFlags_Leaf : 0);
 	if (ImGui::TreeNodeEx((void*)(intptr_t)currentNodeIndex, nodeflag,name.c_str()))
-	{
-		
+	{	
 		if (ImGui::IsItemClicked())
 		{
 			selectedIndex = currentNodeIndex;
-			pSelectedNode = const_cast<Node*>(this);
-			
+			pSelectedNode = const_cast<Node*>(this);			
 		}
 		for (const auto& child : childPtrs)
 		{
@@ -155,8 +154,15 @@ Model::Model(Graphics& gfx, const std::string fileName):
 	Assimp::Importer imp;
 	const auto pScene = imp.ReadFile(fileName.c_str(),
 		aiProcess_Triangulate |
-		aiProcess_JoinIdenticalVertices
+		aiProcess_JoinIdenticalVertices |
+		aiProcess_ConvertToLeftHanded |
+		aiProcess_GenNormals
 	);
+
+	if (pScene == nullptr)
+	{
+		throw ModelException(__LINE__, __FILE__, imp.GetErrorString());
+	}
 
 	for (size_t i = 0; i < pScene->mNumMeshes; i++)
 	{
@@ -261,4 +267,27 @@ std::unique_ptr<Node> Model::ParseNode(const aiNode& node)noexcept
 	return pNode;
 }
 
+ModelException::ModelException(int line, const char* file, std::string note) noexcept
+	:
+	ChiliException(line, file),
+	note(std::move(note))
+{}
 
+const char* ModelException::What() const noexcept
+{
+	std::ostringstream oss;
+	oss << ChiliException::What() << std::endl
+		<< "[Note] " << GetNote();
+	WhatBuffer = oss.str();
+	return WhatBuffer.c_str();
+}
+
+const char* ModelException::GetType() const noexcept
+{
+	return "Chili Model Exception";
+}
+
+const std::string& ModelException::GetNote() const noexcept
+{
+	return note;
+}

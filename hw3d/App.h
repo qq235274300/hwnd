@@ -27,6 +27,6 @@ private:
 	PointLight light;
 	float speed_factor = 1.0f;
 	
-	Model nano{ wnd.Gfx(),"Models\\nanosuit.obj" };
+	Model nano{ wnd.Gfx(),"Models\\boxy.gltf" };
 	
 };
