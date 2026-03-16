@@ -53,7 +53,7 @@ Window::Window(int width, int height, const wchar_t* name)
 	}
 	//WindowClass::GetWndClassName()
 	hWnd = CreateWindowEx(0, WindowClass::GetWndClassName(), name, WS_SYSMENU | WS_CAPTION | WS_MINIMIZEBOX,
-		CW_USEDEFAULT, CW_USEDEFAULT,width,height,nullptr,nullptr, WindowClass::GetInstance(),this);
+		CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top,nullptr,nullptr, WindowClass::GetInstance(),this);
 
 	if (hWnd == nullptr)
 	{
@@ -64,7 +64,7 @@ Window::Window(int width, int height, const wchar_t* name)
 	//Init Imgui Win32 Impl
 	ImGui_ImplWin32_Init(hWnd);
 
-	pGfx = std::make_unique<Graphics>(hWnd);
+	pGfx = std::make_unique<Graphics>(hWnd,width,height);
 }
 
 Window::~Window()

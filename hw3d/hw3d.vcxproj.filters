@@ -141,9 +141,6 @@
     <ClCompile Include="PointLight.cpp">
       <Filter>源文件\Lights</Filter>
     </ClCompile>
-    <ClCompile Include="AssTest.cpp">
-      <Filter>源文件\Models</Filter>
-    </ClCompile>
     <ClCompile Include="Mesh.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -230,22 +227,10 @@
     <ClInclude Include="IndexedTriangleList.h">
       <Filter>源文件\Drawable</Filter>
     </ClInclude>
-    <ClInclude Include="Cube.h">
-      <Filter>源文件\Primitive</Filter>
-    </ClInclude>
-    <ClInclude Include="Plane.h">
-      <Filter>源文件\Primitive</Filter>
-    </ClInclude>
     <ClInclude Include="ChiliMath.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Prism.h">
-      <Filter>源文件\Primitive</Filter>
-    </ClInclude>
     <ClInclude Include="Sphere.h">
-      <Filter>源文件\Primitive</Filter>
-    </ClInclude>
-    <ClInclude Include="Cone.h">
       <Filter>源文件\Primitive</Filter>
     </ClInclude>
     <ClInclude Include="GDIPlusManager.h">
@@ -295,9 +280,6 @@
     </ClInclude>
     <ClInclude Include="PointLight.h">
       <Filter>源文件\Lights</Filter>
-    </ClInclude>
-    <ClInclude Include="TestObject.h">
-      <Filter>源文件\Primitive</Filter>
     </ClInclude>
     <ClInclude Include="Assimp\include\assimp\ai_assert.h">
       <Filter>头文件\assimp</Filter>
@@ -418,9 +400,6 @@
     </ClInclude>
     <ClInclude Include="Assimp\include\assimp\version.h">
       <Filter>头文件\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="AssTest.h">
-      <Filter>源文件\Models</Filter>
     </ClInclude>
     <ClInclude Include="Vertex.h">
       <Filter>头文件</Filter>

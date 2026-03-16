@@ -7,7 +7,7 @@
 #include "Surface.h"
 #include "GDIPlusManager.h"
 #include "imgui/imgui.h"
-#include "AssTest.h"
+
 
 GDIPlusManager gdipm;
 
