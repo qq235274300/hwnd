@@ -1,5 +1,6 @@
 #include "Mesh.h"
 #include "Imgui/imgui.h"
+#include <unordered_map>
 // Mesh
 Mesh::Mesh(Graphics& gfx, std::vector<std::unique_ptr<Bind::Bindable>> bindPtrs)
 {
@@ -40,11 +41,12 @@ Node::Node(const std::string& name,std::vector<Mesh*> meshPtrs, const DirectX::X
 	name(name),
 	meshPtrs(std::move(meshPtrs))
 {
-	DirectX::XMStoreFloat4x4(&this->transform, transform);
+	DirectX::XMStoreFloat4x4(&baseTransform, transform);
+	DirectX::XMStoreFloat4x4(&appliedTransform, DirectX::XMMatrixIdentity());
 }
 void Node::Draw(Graphics& gfx, DirectX::FXMMATRIX accumulatedTransform) const noxnd
 {
-	const auto built = DirectX::XMLoadFloat4x4(&transform) * accumulatedTransform;
+	const auto built = DirectX::XMLoadFloat4x4(&baseTransform)* DirectX::XMLoadFloat4x4(&appliedTransform) * accumulatedTransform;
 	for (const auto pm : meshPtrs)
 	{
 		pm->Draw(gfx, built);
@@ -55,17 +57,34 @@ void Node::Draw(Graphics& gfx, DirectX::FXMMATRIX accumulatedTransform) const no
 	}
 }
 
-void Node::ShowTree() const noexcept
+void Node::ShowTree(int& nodeIndexTracked, std::optional<int>& selectedIndex,Node*& pSelectedNode) const noexcept
 {
+	const int currentNodeIndex = nodeIndexTracked;
+	nodeIndexTracked++;
 	//绘制一个节点 如果点击了就会展开 其实这里还没结构
-	if (ImGui::TreeNode(name.c_str()))
+	const auto nodeflag = ImGuiTreeNodeFlags_OpenOnArrow |
+		((currentNodeIndex == selectedIndex.value_or(-1)) ? ImGuiTreeNodeFlags_Selected : 0)
+		| (childPtrs.empty() ?  ImGuiTreeNodeFlags_Leaf : 0);
+	if (ImGui::TreeNodeEx((void*)(intptr_t)currentNodeIndex, nodeflag,name.c_str()))
 	{
+		
+		if (ImGui::IsItemClicked())
+		{
+			selectedIndex = currentNodeIndex;
+			pSelectedNode = const_cast<Node*>(this);
+			
+		}
 		for (const auto& child : childPtrs)
 		{
-			child->ShowTree();
+			child->ShowTree(nodeIndexTracked, selectedIndex, pSelectedNode);
 		}		
 		ImGui::TreePop();
 	}
+}
+
+void Node::SetAppliedTransform(DirectX::XMMATRIX transform)
+{
+	DirectX::XMStoreFloat4x4(&appliedTransform, transform);
 }
 
 void Node::AddChild(std::unique_ptr<Node> pChild) noxnd
@@ -80,30 +99,42 @@ public:
 	void show(const char* windowName,const Node& pRoot)
 	{
 		windowName = windowName ? windowName : "Model";
+		int nodeIndexTrack = 0;
 		if (ImGui::Begin(windowName))
 		{
 			ImGui::Columns(2, nullptr, true);
-			pRoot.ShowTree();
+			pRoot.ShowTree(nodeIndexTrack, selectNodeIndex,pSelectedNode);
 			ImGui::NextColumn();
-			ImGui::Text("Orientation");
-			ImGui::SliderAngle("Roll", &pos.roll, -180.0f, 180.0f);
-			ImGui::SliderAngle("Pitch", &pos.pitch, -180.0f, 180.0f);
-			ImGui::SliderAngle("Yaw", &pos.yaw, -180.0f, 180.0f);
-			ImGui::Text("Position");
-			ImGui::SliderFloat("X", &pos.x, -20.0f, 20.f);
-			ImGui::SliderFloat("Y", &pos.y, -20.0f, 20.f);
-			ImGui::SliderFloat("Z", &pos.z, -20.0f, 20.f);
+			if (pSelectedNode != nullptr)
+			{
+				 auto& transform = transforms[*selectNodeIndex];
+				ImGui::Text("Orientation");
+				ImGui::SliderAngle("Roll", &transform.roll, -180.0f, 180.0f);
+				ImGui::SliderAngle("Pitch", &transform.pitch, -180.0f, 180.0f);
+				ImGui::SliderAngle("Yaw", &transform.yaw, -180.0f, 180.0f);
+				ImGui::Text("Position");
+				ImGui::SliderFloat("X", &transform.x, -20.0f, 20.f);
+				ImGui::SliderFloat("Y", &transform.y, -20.0f, 20.f);
+				ImGui::SliderFloat("Z", &transform.z, -20.0f, 20.f);
+			}
+			
 		}
 		ImGui::End();
 	}
 
-	DirectX::XMMATRIX getTransform()
+	DirectX::XMMATRIX getTransform()const noexcept
 	{
-		return DirectX::XMMatrixRotationRollPitchYaw(pos.roll, pos.pitch, pos.yaw)
-			* DirectX::XMMatrixTranslation(pos.x, pos.y, pos.z);
+		const auto transform = transforms.at(*selectNodeIndex);
+		return DirectX::XMMatrixRotationRollPitchYaw(transform.roll, transform.pitch, transform.yaw)
+			* DirectX::XMMatrixTranslation(transform.x, transform.y, transform.z);
+	}
+
+	Node* GetSelectedNode()const noexcept
+	{
+		return pSelectedNode;
 	}
 private:
-	struct
+	struct transformPara
 	{
 		float roll = 0.0f;
 		float pitch = 0.0f;
@@ -111,7 +142,10 @@ private:
 		float x = 0.0f;
 		float y = 0.0f;
 		float z = 0.0f;
-	}pos;
+	};
+	std::unordered_map<int, transformPara> transforms;
+	std::optional<int> selectNodeIndex ;
+	Node* pSelectedNode;
 };
 
 // Model
@@ -140,7 +174,12 @@ void Model::ShowWindow(const char* windowName)
 }
 void Model::Draw(Graphics& gfx) const noxnd
 {
-	pRoot->Draw(gfx, pWindow->getTransform());
+	if (auto node = pWindow->GetSelectedNode())
+	{
+		node->SetAppliedTransform(pWindow->getTransform());
+	}
+	
+	pRoot->Draw(gfx, DirectX::XMMatrixIdentity());
 }
 
 std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh)

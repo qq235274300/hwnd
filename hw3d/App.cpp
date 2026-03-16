@@ -52,7 +52,7 @@ void App::DoFrame()
 	camera.SpawnControlWindow();
 	light.SpawnControlWindow();
 	ShowImguiDemoWindow();
-	nano.ShowWindow("xxx");
+	nano.ShowWindow("Model");
 
 	wnd.Gfx().EndFrame();
 }

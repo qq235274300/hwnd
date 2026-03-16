@@ -2,10 +2,12 @@
 #include "DrawableBase.h"
 #include "BindableCommon.h"
 #include "Vertex.h"
+#include "ConditionalNoexcept.h"
+#include <optional>
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
-#include "ConditionalNoexcept.h"
+
 
 class Mesh : public DrawableBase<Mesh>
 {
@@ -20,17 +22,20 @@ private:
 class Node
 {
 	friend class Model;
+	friend class ModelWindow;
 public:
 	Node(const std::string& name,std::vector<Mesh*> meshPtrs, const DirectX::XMMATRIX& transform) noxnd;
 	void Draw(Graphics& gfx, DirectX::FXMMATRIX accumulatedTransform) const noxnd;
-	void ShowTree()const noexcept;
+	void ShowTree(int& nodeIndex, std::optional<int>& selectedIndex,Node*& pSelectedNode)const noexcept;
+	void SetAppliedTransform(DirectX::XMMATRIX transform);
 private:
 	void AddChild(std::unique_ptr<Node> pChild) noxnd;
 private:
 	std::string name;
 	std::vector<std::unique_ptr<Node>> childPtrs;
 	std::vector<Mesh*> meshPtrs;
-	DirectX::XMFLOAT4X4 transform;
+	DirectX::XMFLOAT4X4 baseTransform;
+	DirectX::XMFLOAT4X4 appliedTransform;
 };
 
 class Model
