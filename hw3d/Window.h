@@ -60,17 +60,28 @@ public:
 	void SetTitle(const std::wstring& title);
 	std::optional<int> ProcessMessages()noexcept;
 	Graphics& Gfx();
+	void EnableCursor()noexcept;
+	void DisableCursor()noexcept;
+	bool GetCursorEnabled()const noexcept;
 private:
 	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	static LRESULT CALLBACK HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	LRESULT HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	void HideCursor()noexcept;
+	void ShowCursor()noexcept;
+	void EnableImGuiMouse()noexcept;
+	void DisableImGuiMouse()noexcept;
+	void ConfineCursor()noexcept;
+	void FreeCursor()noexcept;
 public:
 	Keyboard kbd;
 	Mouse mouse;
+	bool cursorEnable = true;
 private:
 	int height, width;
 	HWND hWnd;
 	std::unique_ptr<Graphics> pGfx;
+	std::vector<BYTE> rawBuffers;
 };
 
 
