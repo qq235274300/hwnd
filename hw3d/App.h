@@ -16,7 +16,7 @@ public:
 private:
 	void DoFrame();
 	void ShowImguiDemoWindow();
-	void ShowRawInputWindow();
+
 private:
 	//最先构造
 	ImguiManager imgui;
@@ -30,7 +30,7 @@ private:
 	
 	Model nano{ wnd.Gfx(),"Models\\nano.gltf" };
 	//raw mouse input
-	int x = 0; int y = 0;
+	bool showDemoWindow = false;
 
 	
 };

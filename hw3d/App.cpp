@@ -50,8 +50,14 @@ void App::DoFrame()
 	
 	while (const auto e = wnd.kbd.ReadKey())
 	{
-		if (e->IsPress() && e->GetCode() == VK_INSERT)
+		if (!e->IsPress())
 		{
+			continue;
+		}
+
+		switch (e->GetCode())
+		{
+		case VK_ESCAPE:
 			if (wnd.GetCursorEnabled())
 			{
 				wnd.DisableCursor();
@@ -62,40 +68,67 @@ void App::DoFrame()
 				wnd.EnableCursor();
 				wnd.mouse.DisableRaw();
 			}
+			break;
+		case VK_F1:
+			showDemoWindow = true;
+			break;
 		}
 	}
+
+	if (!wnd.GetCursorEnabled())
+	{
+		if (wnd.kbd.KeyIsPressed('W'))
+		{
+			camera.Translate({ 0.0f,0.0f,dt });
+		}
+		if (wnd.kbd.KeyIsPressed('A'))
+		{
+			camera.Translate({ -dt,0.0f,0.0f });
+		}
+		if (wnd.kbd.KeyIsPressed('S'))
+		{
+			camera.Translate({ 0.0f,0.0f,-dt });
+		}
+		if (wnd.kbd.KeyIsPressed('D'))
+		{
+			camera.Translate({ dt,0.0f,0.0f });
+		}
+		if (wnd.kbd.KeyIsPressed('R'))
+		{
+			camera.Translate({ 0.0f,dt,0.0f });
+		}
+		if (wnd.kbd.KeyIsPressed('F'))
+		{
+			camera.Translate({ 0.0f,-dt,0.0f });
+		}
+	}
+
+	while (const auto delta = wnd.mouse.ReadRawDelta())
+	{
+		if (!wnd.GetCursorEnabled())
+		{
+			camera.Rotate(delta->x, delta->y);
+		}
+	}	
+	
 
 	camera.SpawnControlWindow();
 	light.SpawnControlWindow();
 	ShowImguiDemoWindow();
 	nano.ShowWindow("Model");
-	ShowRawInputWindow();
+	
 
 	wnd.Gfx().EndFrame();
 }
 
 void App::ShowImguiDemoWindow()
 {
-	static bool showdemowindow = true;
-	if (showdemowindow)
+	if (showDemoWindow)
 	{
-		ImGui::ShowDemoWindow(&showdemowindow);
+		ImGui::ShowDemoWindow(&showDemoWindow);
 	}
 }
 
-void App::ShowRawInputWindow()
-{
-	while (const auto d = wnd.mouse.ReadRawDelta())
-	{
-		x += d->x;
-		y += d->y;
-	}
-	if (ImGui::Begin("Raw Input"))
-	{
-		ImGui::Text("Tally: (%d,%d)", x, y);
-		ImGui::Text("Cursor: %s", wnd.GetCursorEnabled() ? "enabled" : "disabled");
-	}
-	ImGui::End();
-}
+
 
 
