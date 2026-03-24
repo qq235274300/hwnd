@@ -2,6 +2,7 @@
 #include "Imgui/imgui.h"
 #include <unordered_map>
 #include <sstream>
+#include "Surface.h"
 // Mesh
 Mesh::Mesh(Graphics& gfx, std::vector<std::unique_ptr<Bind::Bindable>> bindPtrs)
 {
@@ -171,7 +172,7 @@ Model::Model(Graphics& gfx, const std::string fileName):
 
 	for (size_t i = 0; i < pScene->mNumMeshes; i++)
 	{
-		meshPtrs.push_back(ParseMesh(gfx, *pScene->mMeshes[i]));
+		meshPtrs.push_back(ParseMesh(gfx, *pScene->mMeshes[i],pScene->mMaterials));
 	}
 	int nextId = 0;
 	pRoot = ParseNode(nextId ,*pScene->mRootNode);
@@ -193,7 +194,7 @@ void Model::Draw(Graphics& gfx) const noxnd
 	pRoot->Draw(gfx, DirectX::XMMatrixIdentity());
 }
 
-std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh)
+std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const aiMaterial* const* pMaterials)
 {
 	namespace dx = DirectX;
 	using Dvtx::VertexLayout;
@@ -202,13 +203,15 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh)
 		VertexLayout{}
 		.Append(VertexLayout::Position3D)
 		.Append(VertexLayout::Normal)
+		.Append(VertexLayout::Texture2D)
 	));
-
+	
 	for (unsigned int i = 0; i < mesh.mNumVertices; i++)
 	{
 		vbuf.EmplaceBack(
 			*reinterpret_cast<dx::XMFLOAT3*>(&mesh.mVertices[i]),
-			*reinterpret_cast<dx::XMFLOAT3*>(&mesh.mNormals[i])
+			*reinterpret_cast<dx::XMFLOAT3*>(&mesh.mNormals[i]),
+			*reinterpret_cast<dx::XMFLOAT2*>(&mesh.mTextureCoords[0][i]) //第0套UV的第i个顶点UV
 		);
 	}
 
@@ -224,6 +227,18 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh)
 	}
 
 	std::vector<std::unique_ptr<Bind::Bindable>> bindablePtrs;
+	
+	//并非每个mesh都会有材质
+	if (mesh.mMaterialIndex >= 0)
+	{
+		using namespace std::string_literals;
+		auto& meshMaterial = *pMaterials[mesh.mMaterialIndex];
+		aiString nameOfMaterial;
+		meshMaterial.GetTexture(aiTextureType_DIFFUSE, 0, &nameOfMaterial);
+		bindablePtrs.push_back(std::make_unique<Bind::Texture>(gfx, Surface::FromFile("Models\\nano_textured\\"s + nameOfMaterial.C_Str())));
+		bindablePtrs.push_back(std::make_unique<Bind::Sampler>(gfx));
+	}
+	
 
 	bindablePtrs.push_back(std::make_unique<Bind::VertexBuffer>(gfx, vbuf));
 
