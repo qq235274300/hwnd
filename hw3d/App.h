@@ -29,6 +29,7 @@ private:
 	float speed_factor = 1.0f;
 	
 	Model nano{ wnd.Gfx(),"Models\\nano_textured\\nanosuit.obj" };
+	Model nano2{ wnd.Gfx(),"Models\\nano_textured\\nanosuit.obj" };
 	//raw mouse input
 	bool showDemoWindow = false;
 
