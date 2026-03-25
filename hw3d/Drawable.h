@@ -2,6 +2,7 @@
 #include "Graphics.h"
 #include <DirectXMath.h>
 #include "ConditionalNoexcept.h"
+#include <memory>
 
 
 namespace Bind
@@ -12,15 +13,12 @@ namespace Bind
 
 class Drawable
 {
-	template<class T>
-	friend class DrawableBase;
 public:
 	Drawable() = default;
 	Drawable(const Drawable&) = delete;
 	virtual ~Drawable() = default;
 
 	void Draw(Graphics& gfx)const noxnd;
-	virtual void Update(float dt) noexcept {}; // 改为非必须继承
 	virtual DirectX::XMMATRIX GetTransformXM() const noexcept = 0;
 protected:
 	template<class T>
@@ -35,12 +33,9 @@ protected:
 		}
 		return nullptr;
 	}
-	void AddBind(std::unique_ptr<Bind::Bindable> bind)noxnd;
-	void AddIndexBuffer(std::unique_ptr<Bind::IndexBuffer> ibuf)noxnd;
+	void AddBind(std::shared_ptr<Bind::Bindable> bind)noxnd;
 private:
-	virtual const std::vector<std::unique_ptr<Bind::Bindable>>& GetStaticBinds() const noexcept = 0;
-private:
-	std::vector<std::unique_ptr<Bind::Bindable>> binds;
+	std::vector<std::shared_ptr<Bind::Bindable>> binds;
 	const Bind::IndexBuffer* pIndexBuffer = nullptr;
 };
 

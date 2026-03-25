@@ -416,7 +416,7 @@
     <ClInclude Include="Color.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="DrawableBase.h">
+    <ClInclude Include="BindableCodex.h">
       <Filter>源文件\Drawable</Filter>
     </ClInclude>
   </ItemGroup>
@@ -451,6 +451,7 @@
     <None Include="Assimp\include\assimp\vector3.inl">
       <Filter>头文件\assimp</Filter>
     </None>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ColorIndexVS.hlsl">

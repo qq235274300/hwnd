@@ -240,6 +240,7 @@
     <ClInclude Include="Assimp\include\assimp\version.h" />
     <ClInclude Include="Bindable.h" />
     <ClInclude Include="BindableBase.h" />
+    <ClInclude Include="BindableCodex.h" />
     <ClInclude Include="BindableCommon.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ChiliException.h" />
@@ -251,7 +252,6 @@
     <ClInclude Include="ConditionalNoexcept.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="Drawable.h" />
-    <ClInclude Include="DrawableBase.h" />
     <ClInclude Include="dxerr.h" />
     <ClInclude Include="DxgiInfoManager.h" />
     <ClInclude Include="GDIPlusManager.h" />
@@ -296,6 +296,7 @@
     <None Include="Assimp\include\assimp\quaternion.inl" />
     <None Include="Assimp\include\assimp\vector2.inl" />
     <None Include="Assimp\include\assimp\vector3.inl" />
+    <None Include="cpp.hint" />
     <None Include="DXGetErrorDescription.inl" />
     <None Include="DXGetErrorString.inl" />
     <None Include="DXTrace.inl" />
