@@ -44,7 +44,6 @@ void App::DoFrame()
 	wnd.Gfx().SetCamera(camera.GetMatrix());
 	light.Bind(wnd.Gfx(),camera.GetMatrix());
 
-	
 	nano.Draw(wnd.Gfx());
 	nano2.Draw(wnd.Gfx());
 	light.Draw(wnd.Gfx());
@@ -118,7 +117,6 @@ void App::DoFrame()
 	ShowImguiDemoWindow();
 	nano.ShowWindow("Model 1");
 	nano2.ShowWindow("Model 2");
-	
 
 	wnd.Gfx().EndFrame();
 }

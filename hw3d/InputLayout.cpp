@@ -30,8 +30,7 @@ namespace Bind
 	std::string InputLayout::GenerateUID(const Dvtx::VertexLayout& layout, ID3DBlob* pVertexShaderBytecode)
 	{
 		using namespace std::string_literals;
-		return typeid(InputLayout).name() + "#"s;
-		//+ layout.GetCode();
+		return typeid(InputLayout).name() + "#"s + layout.GetCode();
 	}
 	std::string InputLayout::GetUID() const noexcept
 	{
