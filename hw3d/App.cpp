@@ -11,9 +11,11 @@
 
 GDIPlusManager gdipm;
 
-App::App(): wnd(1200, 900, wndName), light(wnd.Gfx()), plane(wnd.Gfx(), 3.0f)
+App::App(): wnd(1200, 900, wndName), light(wnd.Gfx()), plane(wnd.Gfx(), 3.0f),
+cube(wnd.Gfx(), 4.0f)
 {
-	plane.SetPos({ 1.0f,17.0f,-1.0f });
+	plane.SetPos({ -5.0f,17.0f,-1.0f });
+	cube.SetPos({ 3.0f,14.0f,-2.0f });
 	wnd.Gfx().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 3.0f / 4.0f, 0.5f, 40.0f));
 }
 
@@ -49,6 +51,7 @@ void App::DoFrame()
 	nano2.Draw(wnd.Gfx());
 	light.Draw(wnd.Gfx());
 	plane.Draw(wnd.Gfx());
+	cube.Draw(wnd.Gfx());
 	
 	while (const auto e = wnd.kbd.ReadKey())
 	{
@@ -120,6 +123,7 @@ void App::DoFrame()
 	nano.ShowWindow("Model 1");
 	nano2.ShowWindow("Model 2");
 	plane.SpawnControlWindow(wnd.Gfx());
+	cube.SpawnControlWindow(wnd.Gfx());
 
 	wnd.Gfx().EndFrame();
 }

@@ -7,6 +7,7 @@
 #include "PointLight.h"
 #include "Mesh.h"
 #include "TestPlane.h"
+#include "TestCube.h"
 #include <set>
 class App
 {
@@ -35,4 +36,5 @@ private:
 	bool showDemoWindow = false;
 
 	TestPlane plane;
+	TestCube cube;
 };

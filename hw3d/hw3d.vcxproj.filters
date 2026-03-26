@@ -153,6 +153,9 @@
     <ClCompile Include="TransformCbufDoubleboi.cpp">
       <Filter>源文件\Bindable</Filter>
     </ClCompile>
+    <ClCompile Include="TestCube.cpp">
+      <Filter>源文件\Drawable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -433,6 +436,12 @@
     </ClInclude>
     <ClInclude Include="TransformCbufDoubleboi.h">
       <Filter>源文件\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube.h">
+      <Filter>源文件\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCube.h">
+      <Filter>源文件\Drawable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
