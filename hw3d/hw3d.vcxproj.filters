@@ -150,6 +150,9 @@
     <ClCompile Include="TestPlane.cpp">
       <Filter>源文件\Drawable</Filter>
     </ClCompile>
+    <ClCompile Include="TransformCbufDoubleboi.cpp">
+      <Filter>源文件\Bindable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -427,6 +430,9 @@
     </ClInclude>
     <ClInclude Include="TestPlane.h">
       <Filter>源文件\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformCbufDoubleboi.h">
+      <Filter>源文件\Bindable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
