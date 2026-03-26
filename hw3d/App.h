@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "PointLight.h"
 #include "Mesh.h"
+#include "TestPlane.h"
 #include <set>
 class App
 {
@@ -33,5 +34,5 @@ private:
 	//raw mouse input
 	bool showDemoWindow = false;
 
-	
+	TestPlane plane;
 };
