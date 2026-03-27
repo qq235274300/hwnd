@@ -27,13 +27,13 @@ private:
 	ChiliTimer timer;
 	Camera camera;
 	PointLight light;
-	float speed_factor = 1.0f;
+	float speed_factor = 0.5f;
 	
 	//Model nano{ wnd.Gfx(),"Models\\nano_textured\\nanosuit.obj" };
 	//Model nano2{ wnd.Gfx(),"Models\\nano_textured\\nanosuit.obj" };
 	//raw mouse input
 	bool showDemoWindow = false;
 	Model wall{ wnd.Gfx(),"Models\\brick_wall\\brick_wall.obj" };
-	//TestPlane plane;
+	TestPlane tp{ wnd.Gfx(),1.0 };
 	
 };

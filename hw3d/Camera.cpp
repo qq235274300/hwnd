@@ -46,9 +46,9 @@ void Camera::SpawnControlWindow() noexcept
 
 void Camera::Reset() noexcept
 {
-	pos = { 4.4f,13.6f,-6.9f };
-	pitch = DirectX::XMConvertToRadians(19.0f);
-	yaw = DirectX::XMConvertToRadians(-27.0f);
+	pos = { 0.9f,-0.4f,-0.6f };
+	pitch = DirectX::XMConvertToRadians(4.0f);
+	yaw = DirectX::XMConvertToRadians(3.0f);
 }
 
 void Camera::Rotate(float dx, float dy) noexcept

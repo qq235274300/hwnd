@@ -174,6 +174,10 @@ void Model::ShowWindow(const char* windowName)
 {
 	pWindow->show(windowName, *pRoot);
 }
+void Model::SetRootTransform(DirectX::FXMMATRIX tf) noexcept
+{
+	pRoot->SetAppliedTransform(tf);
+}
 void Model::Draw(Graphics& gfx) const noxnd
 {
 	if (auto node = pWindow->GetSelectedNode())
