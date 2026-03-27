@@ -7,7 +7,6 @@
 #include "PointLight.h"
 #include "Mesh.h"
 #include "TestPlane.h"
-#include "TestCube.h"
 #include <set>
 class App
 {
@@ -30,11 +29,11 @@ private:
 	PointLight light;
 	float speed_factor = 1.0f;
 	
-	Model nano{ wnd.Gfx(),"Models\\nano_textured\\nanosuit.obj" };
-	Model nano2{ wnd.Gfx(),"Models\\nano_textured\\nanosuit.obj" };
+	//Model nano{ wnd.Gfx(),"Models\\nano_textured\\nanosuit.obj" };
+	//Model nano2{ wnd.Gfx(),"Models\\nano_textured\\nanosuit.obj" };
 	//raw mouse input
 	bool showDemoWindow = false;
-
-	TestPlane plane;
-	TestCube cube;
+	Model wall{ wnd.Gfx(),"Models\\brick_wall\\brick_wall.obj" };
+	//TestPlane plane;
+	
 };

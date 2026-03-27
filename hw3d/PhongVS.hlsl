@@ -6,7 +6,7 @@ cbuffer CBuf
 
 struct VSOut
 {
-    float3 worldPos : Position;
+    float3 viewPos : Position;
     float3 normal : Normal;
     float2 tc : Texcoord;
     //SV_Position 是系统语义（强制要求）
@@ -17,7 +17,7 @@ VSOut main(float3 pos : Position, float3 n : Normal, float2 tc : Texcoord)
 {
     VSOut vso;
     // 顶点在世界空间中的坐标
-    vso.worldPos = (float3) mul(float4(pos, 1.0f), modelView);
+    vso.viewPos = (float3) mul(float4(pos, 1.0f), modelView);
      // 顶点法线在世界空间中的方向  法线不能用 4×4 matrix（带位移），否则法线会被平移
     vso.normal = mul(n, (float3x3) modelView); 
     //modelViewProj = model * view * projection  转换到屏幕空间（viewport） mvp矩阵
